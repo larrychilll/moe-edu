@@ -48,7 +48,7 @@ export default async function LearnPage({
             <Link
               key={gb.slug}
               href={`/learn/${gb.slug}`}
-              className={`rounded-md px-3 py-1.5 text-[13px] font-medium ${
+              className={`rounded-md px-3 py-1.5 text-[0.825rem] font-medium ${
                 active
                   ? "bg-zinc-900 text-white"
                   : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
@@ -61,7 +61,7 @@ export default async function LearnPage({
       </div>
 
       <header className="mt-6">
-        <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+        <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
           Learning track
         </div>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">{g.name}</h1>

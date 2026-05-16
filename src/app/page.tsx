@@ -23,9 +23,9 @@ export default function HomePage() {
         <div className="absolute inset-0 -z-0 bg-[radial-gradient(ellipse_at_top,rgba(125,211,252,0.18),transparent_55%)]" />
         <div className="relative mx-auto max-w-6xl px-4 py-14 sm:py-20">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1 text-[11px] font-medium text-zinc-600">
+            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1 text-[0.7rem] font-medium text-zinc-600">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Gentrice 校園網路素養平台 · Phase 0.1
+              Gentrice 校園網路素養平台
             </div>
             <h1 className="mt-5 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-5xl">
               校園網路問題，
@@ -71,8 +71,8 @@ export default function HomePage() {
               href={`/learn/${g.slug}`}
               className="rounded-lg border border-zinc-200 bg-white px-3 py-3 text-center text-sm font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50"
             >
-              <div className="text-[13px]">{g.name}</div>
-              <div className="mt-0.5 text-[11px] text-zinc-500">{g.tagline}</div>
+              <div className="text-[0.825rem]">{g.name}</div>
+              <div className="mt-0.5 text-[0.7rem] text-zinc-500">{g.tagline}</div>
             </Link>
           ))}
         </div>

@@ -5,8 +5,7 @@ import { CATEGORIES } from "@/lib/data";
 import type { CategorySlug } from "@/lib/data";
 
 const AUDIENCES = [
-  { key: "grade_1_3", label: "低年級 1-3" },
-  { key: "grade_4_6", label: "中年級 4-6" },
+  { key: "grade_4_6", label: "國小高年級 4-6" },
   { key: "grade_7_9", label: "國中 7-9" },
   { key: "grade_10_12", label: "高中 10-12" },
   { key: "teacher", label: "老師" },
@@ -61,7 +60,7 @@ export function GenerateDraftForm() {
     <div className="space-y-6">
       <section className="rounded-xl border border-zinc-200 bg-white p-5">
         <h2 className="text-sm font-semibold tracking-tight">技術來源說明</h2>
-        <p className="mt-1 text-[12px] text-zinc-500">
+        <p className="mt-1 text-xs text-zinc-500">
           貼上資訊組備忘、廠商回報或現場觀察。AI 會以此產生草稿，仍需人工審核後才能發佈。
         </p>
         <textarea
@@ -112,12 +111,12 @@ export function GenerateDraftForm() {
             {generating ? "生成中…" : "一鍵產生草稿"}
           </button>
           {stage >= 0 && (
-            <span className="text-[12px] text-zinc-500">
+            <span className="text-xs text-zinc-500">
               {STAGES[stage]}…
             </span>
           )}
           {draft && !generating && (
-            <span className="text-[12px] text-emerald-700">草稿已產生 · 請審核後送出。</span>
+            <span className="text-xs text-emerald-700">草稿已產生 · 請審核後送出。</span>
           )}
         </div>
       </section>
@@ -126,7 +125,7 @@ export function GenerateDraftForm() {
         <section className="rounded-xl border border-zinc-200 bg-white p-5">
           <div className="mb-1 flex items-center justify-between">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+              <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-500">
                 AI 草稿 · 待審核
               </div>
               <h2 className="mt-1 text-lg font-semibold tracking-tight">
@@ -184,10 +183,10 @@ export function GenerateDraftForm() {
           </div>
 
           <div className="mt-4 rounded-lg border border-zinc-300 bg-zinc-900 p-4 text-zinc-100">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
+            <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-400">
               資訊組備註
             </div>
-            <p className="mt-1 text-[13px] leading-6">{draft.technicalNote}</p>
+            <p className="mt-1 text-[0.825rem] leading-6">{draft.technicalNote}</p>
           </div>
 
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -196,7 +195,7 @@ export function GenerateDraftForm() {
                 {draft.keywords.map((k) => (
                   <span
                     key={k}
-                    className="rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] text-zinc-700"
+                    className="rounded-md bg-zinc-100 px-2 py-0.5 text-[0.7rem] text-zinc-700"
                   >
                     {k}
                   </span>
@@ -204,7 +203,7 @@ export function GenerateDraftForm() {
               </div>
             </Block>
             <Block title="圖片提示（GPT-Image-2）">
-              <code className="text-[12px] text-zinc-600">{draft.imagePrompt}</code>
+              <code className="text-xs text-zinc-600">{draft.imagePrompt}</code>
             </Block>
           </div>
         </section>
@@ -216,7 +215,7 @@ export function GenerateDraftForm() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+      <span className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
         {label}
       </span>
       <div className="mt-1">{children}</div>
@@ -227,17 +226,17 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="rounded-lg border border-zinc-100 bg-zinc-50/60 p-3">
-      <div className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+      <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-500">
         {title}
       </div>
-      <div className="mt-1 text-[14px] leading-7 text-zinc-700">{children}</div>
+      <div className="mt-1 text-sm leading-7 text-zinc-700">{children}</div>
     </div>
   );
 }
 
 function buildMockDraft(source: string, audience: string): Draft {
   const isStudent = audience.startsWith("grade_");
-  const isJunior = audience === "grade_1_3" || audience === "grade_4_6";
+  const isJunior = audience === "grade_4_6";
   return {
     title: "IP 衝突：為什麼有人上不了網，印表機也突然不能印？",
     summary:

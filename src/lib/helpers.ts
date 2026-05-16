@@ -29,14 +29,12 @@ export function getQrLanding(id: string): QrLanding | undefined {
 
 export function audienceLabel(key: AudienceKey): string {
   switch (key) {
-    case "grade_1_3":
-      return "低年級 1-3";
     case "grade_4_6":
-      return "中年級 4-6";
+      return "國小高年級";
     case "grade_7_9":
-      return "國中 7-9";
+      return "國中";
     case "grade_10_12":
-      return "高中 10-12";
+      return "高中";
     case "teacher":
       return "老師版";
     case "it_staff":

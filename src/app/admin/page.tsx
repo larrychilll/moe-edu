@@ -22,7 +22,7 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <header>
-        <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+        <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
           Dashboard
         </div>
         <div className="mt-1 flex flex-wrap items-end justify-between gap-3">
@@ -34,9 +34,6 @@ export default function AdminDashboardPage() {
             + 建立新主題
           </Link>
         </div>
-        <p className="mt-1 text-sm text-zinc-500">
-          Phase 0.1 模擬資料。實際數字將於串接資料庫後顯示。
-        </p>
       </header>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -50,7 +47,7 @@ export default function AdminDashboardPage() {
         <div className="lg:col-span-2 rounded-xl border border-zinc-200 bg-white p-5">
           <div className="mb-3 flex items-end justify-between">
             <h2 className="text-sm font-semibold tracking-tight">瀏覽量最高主題</h2>
-            <span className="text-[11px] text-zinc-500">過去 30 天（模擬）</span>
+            <span className="text-[0.7rem] text-zinc-500">過去 30 天（模擬）</span>
           </div>
           <ul className="divide-y divide-zinc-100 text-sm">
             {mostViewed.map(
@@ -102,7 +99,7 @@ export default function AdminDashboardPage() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-xl border border-zinc-200 bg-white p-4">
-      <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+      <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
         {label}
       </div>
       <div className="mt-1 text-2xl font-semibold tabular-nums tracking-tight">

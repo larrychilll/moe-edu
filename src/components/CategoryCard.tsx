@@ -14,7 +14,7 @@ export function CategoryCard({ category, topicCount }: { category: Category; top
         <span className={`grid h-10 w-10 place-items-center rounded-lg text-xl ${a.soft}`}>
           {category.iconEmoji}
         </span>
-        <span className="text-[11px] text-zinc-500">{topicCount} 個主題</span>
+        <span className="text-[0.7rem] text-zinc-500">{topicCount} 個主題</span>
       </div>
       <div>
         <div className="text-base font-semibold tracking-tight">{category.name}</div>

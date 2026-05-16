@@ -14,7 +14,7 @@ export default function AdminQrPage() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+          <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
             QR Manager
           </div>
           <h1 className="mt-1 text-2xl font-semibold tracking-tight">QR 管理</h1>
@@ -38,7 +38,7 @@ export default function AdminQrPage() {
           >
             <div className="flex items-start justify-between">
               <div>
-                <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+                <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
                   {TYPE_LABEL[q.locationType] ?? q.locationType}
                 </div>
                 <div className="mt-1 text-base font-semibold tracking-tight">
@@ -47,7 +47,7 @@ export default function AdminQrPage() {
               </div>
               <div className="grid h-12 w-12 place-items-center rounded-md border border-zinc-200 bg-[conic-gradient(at_top_left,#27272a_25%,#fff_25%_50%,#27272a_50%_75%,#fff_75%)] [background-size:6px_6px]" />
             </div>
-            <div className="mt-3 text-[12px] text-zinc-500">連結主題</div>
+            <div className="mt-3 text-xs text-zinc-500">連結主題</div>
             <ul className="mt-1 space-y-0.5 text-sm">
               {q.topicSlugs.map((s) => (
                 <li key={s} className="truncate text-zinc-700">
@@ -64,7 +64,7 @@ export default function AdminQrPage() {
               </Link>
               <button
                 type="button"
-                className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-[11px] text-zinc-600 hover:bg-zinc-50"
+                className="rounded-md border border-zinc-200 bg-white px-2 py-1 text-[0.7rem] text-zinc-600 hover:bg-zinc-50"
               >
                 列印海報
               </button>

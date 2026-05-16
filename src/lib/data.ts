@@ -1,5 +1,4 @@
 export type AudienceKey =
-  | "grade_1_3"
   | "grade_4_6"
   | "grade_7_9"
   | "grade_10_12"
@@ -49,7 +48,6 @@ export type Category = {
 
 export type GradeBand = {
   slug:
-    | "grade-1-3"
     | "grade-4-6"
     | "grade-7-9"
     | "grade-10-12"
@@ -122,14 +120,8 @@ export const CATEGORIES: Category[] = [
 
 export const GRADE_BANDS: GradeBand[] = [
   {
-    slug: "grade-1-3",
-    name: "低年級 1-3",
-    tagline: "用最簡單的比喻說明每天會遇到的網路小狀況。",
-    audienceKey: "grade_1_3",
-  },
-  {
     slug: "grade-4-6",
-    name: "中年級 4-6",
+    name: "國小高年級 4-6",
     tagline: "用故事和情境，讓同學理解網路為什麼會出狀況。",
     audienceKey: "grade_4_6",
   },
@@ -198,7 +190,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Likely upstream WAN outage from ISP. Check edge router WAN status, BGP/PPPoE session, optical signal on the ONU. If校內 LAN/intranet 仍通，問題在 WAN 側。Open ticket with ISP and record incident timeline.",
     audienceVersions: [
-      A("grade_1_3", "想像學校有一條大水管，把外面的網路水送進學校。如果這條大水管壞掉，全校都會沒水。同學等老師處理就好。"),
       A("grade_4_6", "校園網路要先連到外面，靠一條主要的線。如果這條線斷了，全校都會同時上不了 Google 或 YouTube，但教室裡電腦之間還可能是通的。"),
       A("grade_7_9", "校外網路是經過電信公司拉一條光纖到學校。這條線斷了，全校的對外連線都會中斷，內部區網仍可能正常。這時要等電信業者修復。"),
       A("grade_10_12", "校園 WAN 上行中斷會造成全校無法存取外部網路，但內部 LAN 通常仍運作。判斷重點是同時影響範圍與內外網對照，這是分辨故障層級的常見方法。"),
@@ -242,7 +233,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Core/aggregation switch failure — check PSU, fans, port LEDs, syslog. Failover to backup uplink if available. Vendor RMA may be needed. Document affected VLANs and downstream switches.",
     audienceVersions: [
-      A("grade_1_3", "學校網路有一個總開關設備，如果它壞掉，很多教室都會一起不能上網。資訊組老師會幫忙修。"),
       A("grade_4_6", "校園裡有一台很重要的網路設備，負責把全校資料送出去。如果它故障，多棟樓會一起斷網。"),
       A("grade_7_9", "核心交換器是校園網路的主要轉接設備。如果它故障，下游的多個樓層都會受影響。這通常需要原廠或維護廠商處理。"),
       A("grade_10_12", "核心交換器故障屬於關鍵單點失效。校園網路設計上應有備援，例如雙電源、雙上行。理解這個概念有助於認識資訊系統可靠性設計。"),
@@ -286,7 +276,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Network loop — broadcast storm signature. Enable STP/RSTP on access switches, configure BPDU guard and loop guard on edge ports. Identify loop port via MAC flap logs, shut/no-shut after physical removal.",
     audienceVersions: [
-      A("grade_1_3", "如果兩條線不小心接成一個圈圈，網路訊息會一直繞，就像球一直滾出不去。發現時不要再亂插線。"),
       A("grade_4_6", "網路迴圈就像兩個同學一直把訊息傳來傳去，整個班就沒人能說話了。發現時要先把多餘的線拔掉。"),
       A("grade_7_9", "如果兩個網路孔被同一條線繞回來，會形成迴圈，造成廣播風暴。交換器有 STP 機制可以阻止，但仍需先排除實體迴圈。"),
       A("grade_10_12", "L2 迴圈會在沒有 STP 的情況下造成廣播風暴。理解 spanning tree 的角色，是維護校園網路穩定的基本概念。"),
@@ -330,7 +319,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Rogue DHCP server (often consumer router). Enable DHCP snooping on access switches, trust only the school DHCP uplink. Identify rogue MAC via ARP table; locate switch port and disable.",
     audienceVersions: [
-      A("grade_1_3", "如果有人把家裡的小盒子接到學校網路，可能會發錯座號，大家就找不到自己的位子。不要把自己的網路設備帶來接到學校。"),
       A("grade_4_6", "校園網路有專門的老師發 IP 座號。如果有人偷接分享器，會像假老師亂發座號，造成同學連不到課程系統。"),
       A("grade_7_9", "未經授權的家用分享器會發出錯誤的 DHCP，影響教室網路。請不要把家裡的分享器帶到學校使用。"),
       A("grade_10_12", "私接 IP 分享器會造成 rogue DHCP，並可能引入 NAT 與安全風險。校園網路屬於管理區域，使用個人設備應遵守校規。"),
@@ -374,7 +362,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Check optical TX/RX power on SFP, compare to threshold. Inspect fiber for bend radius, dirty connectors (clean with proper tool), or rodent damage. Consider OTDR test for longer segments.",
     audienceVersions: [
-      A("grade_1_3", "校園網路裡有一種用光來傳訊息的線，如果被壓壞或弄髒，網路就會斷斷續續。看到這種線不要碰。"),
       A("grade_4_6", "光纖是用光傳訊息的特別線路。如果被壓到或彎折，光跑不過去，網路就會變慢或斷掉。"),
       A("grade_7_9", "光纖透過光訊號傳資料，比一般網路線更敏感。彎折半徑過小、接頭髒污、施工碰撞都會造成訊號衰減。"),
       A("grade_10_12", "光纖通訊依賴光功率穩定。彎折、髒污、接頭氧化都會造成衰減，理解這點有助於認識實體層的可靠性。"),
@@ -418,7 +405,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Duplicate IP — often static IP misconfigured on a new device, or rogue DHCP. Check ARP table on L3 switch, identify MAC pair sharing the IP, trace to switch port. Verify DHCP scope and reservations.",
     audienceVersions: [
-      A("grade_1_3", "想像每個人都有自己的座號。如果兩個同學拿到一樣的座號，老師發作業就會搞錯。網路也是這樣，告訴老師讓資訊組老師處理。"),
       A("grade_4_6", "校園網路裡每台設備都有座號，叫做 IP。如果兩台設備拿到一樣的座號，資料就送不到正確的地方。"),
       A("grade_7_9", "IP 是設備在網路裡的識別碼。重複的 IP 會讓資料無法正確投遞，常見於有人手動設了固定 IP 或私接分享器。"),
       A("grade_10_12", "IP 衝突會破壞網路層的可達性。校園內常見成因有 static IP 誤設、rogue DHCP、設備未釋放租約。資訊組通常會用 ARP 與 DHCP log 排查。"),
@@ -464,7 +450,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Look at flow records (NetFlow/sFlow) or per-port utilization on access switch. Identify top talker, correlate to user/device. Common causes: cloud backup, OS update, P2P, mining malware.",
     audienceVersions: [
-      A("grade_1_3", "教室的網路像一條大水管，大家一起喝。如果一個人偷偷把水管整個吸住，其他人就沒水了。"),
       A("grade_4_6", "全班共用一條網路，如果有同學的電腦突然下載很大的東西，全班會一起變慢。"),
       A("grade_7_9", "教室頻寬是共享資源。當某台電腦在背景上傳或下載大量資料，其他人的延遲就會升高。"),
       A("grade_10_12", "頻寬是有限的共享資源。識別 top talker、理解 QoS 與流量整形，是維護共用網路品質的基本概念。"),
@@ -508,7 +493,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Aging L2 switch may suffer CPU saturation, buffer exhaustion or thermal throttling. Check CPU/memory, port error counters, temperature. Plan for replacement if EOL.",
     audienceVersions: [
-      A("grade_1_3", "每間教室都有一個小盒子幫大家連網路。如果它太熱，就會反應變慢，網路也會變慢。"),
       A("grade_4_6", "教室裡有一台小型網路設備，幫忙轉接訊息。如果它太舊或太熱，整間教室都會跟著卡。"),
       A("grade_7_9", "教室層級的 L2 交換器負責把多台電腦接到校內網路。當它老舊或過熱，會造成整段網路品質下降。"),
       A("grade_10_12", "L2 交換器是教室與骨幹之間的橋樑。它的健康度（CPU、溫度、錯誤計數）會直接影響教室體驗。"),
@@ -552,7 +536,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Broadcast storm typically from L2 loop, faulty NIC, or misconfigured device. Enable STP/BPDU guard, storm-control on access ports. Identify ingress port via switch counters.",
     audienceVersions: [
-      A("grade_1_3", "想像班上很多同學同時拿擴音器一直喊話，老師說的話誰都聽不到。網路如果這樣，就會變超慢。"),
       A("grade_4_6", "網路廣播就像對全班喊話。如果一直有人喊不停，正常的訊息就傳不出去，網路就會塞住。"),
       A("grade_7_9", "廣播風暴常因為迴圈或故障設備造成。每個設備都要回應廣播，整段網路就會被癱瘓。"),
       A("grade_10_12", "Broadcast storm 會導致 CPU 與頻寬同時被吃光。理解 storm-control 與 STP 的角色，有助於設計穩定的 L2 網路。"),
@@ -596,7 +579,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Locate broadcast source via switch port counters. Common culprits: aging NIC, faulty printer, malware (e.g., ARP scanner). Isolate, replace NIC or update firmware as needed.",
     audienceVersions: [
-      A("grade_1_3", "有時候某台設備會一直自言自語，雖然聲音不大，但聽久了大家還是會分心。網路設備也會這樣。"),
       A("grade_4_6", "故障的設備可能一直發訊息打擾大家，雖然不會立刻斷網，但時間久了大家都會變慢。"),
       A("grade_7_9", "異常廣播會逐漸吃掉頻寬與 CPU 資源。常見來源是老舊網卡、故障印表機或惡意程式。"),
       A("grade_10_12", "ARP 掃描、廣播風暴與異常廣播是 L2 故障與資安事件的常見線索。理解這類訊號有助於識別問題源頭。"),
@@ -640,7 +622,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Replace patch cable, inspect RJ45 termination, run cable tester (NEXT, return loss). Inspect wall plate keystone. Replace damaged cabling promptly.",
     audienceVersions: [
-      A("grade_1_3", "網路線就像一條小水管，如果被門夾到或破掉，水就會漏掉，網路就會斷斷續續。"),
       A("grade_4_6", "網路線用太久或被壓到，裡面的金屬會壞掉，訊號就會時有時無。"),
       A("grade_7_9", "老舊或損壞的網路線會造成訊號衰減與封包遺失，常表現為連線不穩或速度異常下降。"),
       A("grade_10_12", "實體層的小瑕疵會放大為應用層的延遲與斷線。理解纜線品質與測線觀念，是 IT 維運的基本素養。"),
@@ -686,7 +667,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "AP saturation — check associated client count, channel utilization, retry rate. Consider band steering, increasing AP density, splitting SSIDs, or limiting per-client bandwidth.",
     audienceVersions: [
-      A("grade_1_3", "Wi-Fi 就像教室裡的廣播。如果太多人同時要說話，就聽不清楚了，Wi-Fi 也會變慢。"),
       A("grade_4_6", "一台 Wi-Fi 設備只能同時陪伴有限的同學。如果太多人一起連，就會輪不到大家。"),
       A("grade_7_9", "AP 容量有限，當同一台 AP 連線數過多，頻道擁擠就會造成 Wi-Fi 卡頓。"),
       A("grade_10_12", "Wi-Fi 共享 air time，AP 過載會降低整體吞吐。理解頻段、頻道與容量規劃是空中網路設計的基本。"),
@@ -730,7 +710,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "RSSI < -75 dBm usually means poor coverage. Check site survey, AP placement, channel interference. Consider AP relocation or additional coverage.",
     audienceVersions: [
-      A("grade_1_3", "Wi-Fi 像看不見的線。如果離得太遠，線就會變很細，網路會變慢。"),
       A("grade_4_6", "Wi-Fi 訊號像聲音，離 AP 太遠或中間隔很多牆，聲音就會變很小，網路就會慢。"),
       A("grade_7_9", "Wi-Fi 訊號強度（RSSI）會隨距離與障礙物衰減。訊號太弱時，連線雖在但傳輸效率會降低。"),
       A("grade_10_12", "RSSI、SNR 與 channel utilization 共同決定 Wi-Fi 體驗。理解這些指標有助於評估與規劃無線網路覆蓋。"),
@@ -774,7 +753,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Multiple SSID with different VLAN/policy. Verify SSID-to-VLAN mapping, captive portal status, RADIUS authentication. Educate users on which SSID to choose.",
     audienceVersions: [
-      A("grade_1_3", "學校的 Wi-Fi 有不同名字，選對才能用學校的功能。請看清楚再選。"),
       A("grade_4_6", "學校有不同的 Wi-Fi 給不同的人用。如果選錯，可能會打不開上課用的網站。"),
       A("grade_7_9", "校園 Wi-Fi 通常分為教學、訪客、教師等不同 SSID。連錯權限不同，常見就是上得了網但用不了校內系統。"),
       A("grade_10_12", "校園 SSID 通常對應不同 VLAN 與政策。理解認證、VLAN、ACL 是企業級網路的常見設計。"),
@@ -820,7 +798,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Check printer IP/static assignment, ping reachability, check print queue, restart spooler. Common: DHCP changed printer IP, IP conflict, firmware lockup.",
     audienceVersions: [
-      A("grade_1_3", "印表機要和電腦一直通訊才能印。如果中間斷了，電腦就會說印表機不在。請告訴老師。"),
       A("grade_4_6", "印表機透過網路收電腦的指令。如果網路斷了，就會顯示離線，請通知老師處理。"),
       A("grade_7_9", "印表機常用固定 IP。若 IP 衝突或被 DHCP 改變，電腦就找不到它。資訊組可以查 ARP 與 print server 設定。"),
       A("grade_10_12", "Networked printer 依賴穩定 IP 與 SNMP 監控。理解這類設備在 IT 管理上的常見故障點，有助於現場問題排查。"),
@@ -864,7 +841,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Check SMB service status on file server, event logs, share/NTFS permissions. Validate DNS for the server name. Check authentication service if AD-joined.",
     audienceVersions: [
-      A("grade_1_3", "校園裡有一個大櫃子放大家的檔案。如果櫃子壞了或被鎖住，大家就拿不到自己的東西。"),
       A("grade_4_6", "共享資料夾放在學校的大電腦裡。如果那台電腦壞了，所有人都打不開。"),
       A("grade_7_9", "校內檔案伺服器提供共享資料夾服務。當服務停止或權限變更，所有依賴它的使用者都會受影響。"),
       A("grade_10_12", "File server、SMB 協定與 AD 權限三者共同決定共享資料夾可用性。理解這些元件互動，是日常 IT 維護的基本。"),
@@ -908,7 +884,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Clear stuck job via print server queue, restart Print Spooler service. If recurring, check driver compatibility, paper sensor, or firmware update.",
     audienceVersions: [
-      A("grade_1_3", "印表機要照順序印，前一份印不出來，後面就會等。請告訴老師處理。"),
       A("grade_4_6", "如果第一份列印工作卡住，後面的人也會印不出來。通常要老師清除排隊工作。"),
       A("grade_7_9", "Print queue 卡住通常是因為驅動或紙張問題。需要清除排隊工作並重啟 spooler 服務。"),
       A("grade_10_12", "Print spooler 是 Windows 處理列印的核心服務。瞭解服務重啟與佇列清除是日常 IT 維護動作之一。"),
@@ -954,7 +929,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Isolate machine from network (not power off — preserve volatile evidence). Run AV scan, check logs. If ransomware, do not pay; consult incident response plan.",
     audienceVersions: [
-      A("grade_1_3", "電腦有時會生病，會偷偷做壞事。發現怪怪的，請告訴老師，不要自己亂點。"),
       A("grade_4_6", "如果電腦被惡意程式感染，會偷偷做事，造成網路變慢或資料外流。記得不要亂點不認識的連結。"),
       A("grade_7_9", "惡意程式包含病毒、勒索軟體、間諜程式。它們會在背景活動，可能造成資料外洩或被加密。"),
       A("grade_10_12", "Malware 行為通常包含 C2 連線、橫向移動、資料外洩。理解這些模式有助於培養基本的數位安全意識。"),
@@ -998,7 +972,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Check L3 switch CPU, ARP table size, control plane policing. Look for ARP scanning, large MAC tables, or rogue device. Apply CoPP, storm-control, DAI if needed.",
     audienceVersions: [
-      A("grade_1_3", "學校網路有一個總指揮，如果它太忙，全校的網路就會變慢。等資訊組老師處理就好。"),
       A("grade_4_6", "校園網路中有個重要的轉接設備，如果它被怪怪的流量塞滿，全校都會變慢。"),
       A("grade_7_9", "L3 交換器負責不同 VLAN 之間的繞送。當其 CPU 被異常封包打滿，內部服務都會變慢。"),
       A("grade_10_12", "控制平面攻擊（如 ARP 風暴）會影響核心設備的可用性。理解 CoPP、DAI、storm-control 是企業網路防禦的基礎概念。"),
@@ -1042,7 +1015,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Phishing — hover to inspect URL, validate sender, check SPF/DKIM/DMARC. If credentials exposed, rotate password and enable MFA. Inspect mailbox rules for malicious forwarding.",
     audienceVersions: [
-      A("grade_1_3", "看到陌生人傳的連結，先告訴大人再決定要不要打開。"),
       A("grade_4_6", "假冒的網站會做得很像真的，但網址會不一樣。先看清楚再輸入帳號密碼。"),
       A("grade_7_9", "釣魚網站常會模仿熟悉的服務。輸入密碼前，請先檢查網址是否正確，並開啟兩步驟驗證。"),
       A("grade_10_12", "社交工程攻擊利用人性弱點。理解網址結構、SPF/DKIM、MFA 等概念，是基本數位生活素養。"),
@@ -1088,7 +1060,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Workflow: ARP (IP→MAC) → MAC address table on access switch (MAC→port) → patch panel mapping (port→room/jack). Maintain accurate documentation for fast tracing.",
     audienceVersions: [
-      A("grade_1_3", "知道某個座號出問題，要找到坐在這個位置的人，需要從不同的紀錄一層一層查。"),
       A("grade_4_6", "校園網路有 IP 也有 MAC，就像座號和學號。資訊組會用這些資訊找到實際的設備在哪。"),
       A("grade_7_9", "找出 IP 對應設備位置：IP→MAC→交換器埠→教室孔位。需要 ARP、MAC table 與點位文件配合。"),
       A("grade_10_12", "資產定位是 IT 維運的基本能力。健全的線路與點位文件，能大幅縮短資安事件回應時間。"),
@@ -1132,7 +1103,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Use cable toner, label patch panel and wall plates, build a port mapping spreadsheet. Plan periodic audits. Consider intelligent patch panel for larger campuses.",
     audienceVersions: [
-      A("grade_1_3", "牆上的網路孔像水管，要知道每根水管接到哪裡。沒有標好就會找不到。"),
       A("grade_4_6", "學校網路線在牆裡跑來跑去。沒有貼好標籤就會像迷宮一樣難找。"),
       A("grade_7_9", "線路追蹤需要測線器、標籤與文件配合。沒有完整紀錄會大幅增加維運成本。"),
       A("grade_10_12", "結構化佈線與點位文件是 IT 基礎建設的核心資產。良好的文件比硬體本身更難重建。"),
@@ -1176,7 +1146,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Standardise labelling scheme (e.g., RM-201-J1), use colored faceplates per VLAN purpose, document in port map. Onboarding doc for new teachers helps reduce confusion.",
     audienceVersions: [
-      A("grade_1_3", "牆上的網路孔每個用途不一樣，要看清楚標籤才不會接錯。"),
       A("grade_4_6", "教室有不同網路孔，給不同設備用。沒貼標籤就要請老師教。"),
       A("grade_7_9", "點位標示對應不同 VLAN 用途。良好的標示能避免接錯造成連線失敗。"),
       A("grade_10_12", "結構化點位設計搭配清楚標示，是企業與校園網路基礎管理的基本。"),
@@ -1220,7 +1189,6 @@ export const TOPICS: Topic[] = [
     technicalNote:
       "Maintain a vendor matrix: scope, SLA, contact, contract reference. Single point of contact (資訊組) coordinates. Document incidents and SLA performance.",
     audienceVersions: [
-      A("grade_1_3", "學校網路有很多人一起照顧。如果壞了，老師會幫忙找對的人。"),
       A("grade_4_6", "校園網路是很多公司一起合作維護的。如果有問題，要找到正確的人才能修。"),
       A("grade_7_9", "校園網路涉及多家廠商，合約與責任清楚的紀錄能加速故障處理。"),
       A("grade_10_12", "服務水準協議（SLA）與責任歸屬，是大型 IT 系統穩定運作的關鍵管理元素。"),

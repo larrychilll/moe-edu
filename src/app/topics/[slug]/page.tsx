@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TOPICS } from "@/lib/data";
+import type { CategorySlug } from "@/lib/data";
 import {
   accentClasses,
   getCategory,
@@ -9,6 +10,8 @@ import {
 } from "@/lib/helpers";
 import { AudienceTabs } from "@/components/AudienceTabs";
 import { TopicCard } from "@/components/TopicCard";
+import { TopicHero } from "@/components/TopicHero";
+import { InlineDiagram } from "@/components/InlineDiagram";
 
 export async function generateStaticParams() {
   return TOPICS.map((t) => ({ slug: t.slug }));
@@ -27,6 +30,75 @@ export async function generateMetadata({
   };
 }
 
+type DiagramPreset = {
+  title: string;
+  caption: string;
+  nodes: { emoji: string; label: string }[];
+};
+
+const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
+  "network-unavailable": {
+    title: "問題發生在這一段",
+    caption: "從教室到機房之間，任何一個節點出問題，連線就會斷。",
+    nodes: [
+      { emoji: "💻", label: "教室電腦" },
+      { emoji: "🔌", label: "教室交換器" },
+      { emoji: "🏢", label: "機房核心" },
+      { emoji: "🌐", label: "外部網路" },
+    ],
+  },
+  "network-slow": {
+    title: "頻寬是大家共用的",
+    caption: "如果有一台設備吃掉大部分頻寬，其他人就會跟著變慢。",
+    nodes: [
+      { emoji: "👥", label: "多位使用者" },
+      { emoji: "📡", label: "共用設備" },
+      { emoji: "🚦", label: "頻寬瓶頸" },
+      { emoji: "🐢", label: "其他人變慢" },
+    ],
+  },
+  "wifi-issues": {
+    title: "Wi-Fi 訊號需要傳到位",
+    caption: "AP 容量、距離、干擾與 SSID 選擇，都會影響無線連線品質。",
+    nodes: [
+      { emoji: "📱", label: "學生裝置" },
+      { emoji: "📶", label: "Wi-Fi 訊號" },
+      { emoji: "🛰️", label: "AP 基地台" },
+      { emoji: "🏫", label: "校園網路" },
+    ],
+  },
+  "printer-sharing": {
+    title: "列印要經過好幾關",
+    caption: "電腦把工作送到印表機，途中任何一段有問題都會卡住。",
+    nodes: [
+      { emoji: "💻", label: "電腦送印" },
+      { emoji: "📨", label: "列印佇列" },
+      { emoji: "🌐", label: "網路傳輸" },
+      { emoji: "🖨️", label: "印表機" },
+    ],
+  },
+  "security-traffic": {
+    title: "資安事件常從一點開始",
+    caption: "一台被感染的電腦會引發整段網路的異常與風險。",
+    nodes: [
+      { emoji: "💻", label: "受感染裝置" },
+      { emoji: "⚠️", label: "異常流量" },
+      { emoji: "🛡️", label: "資訊組偵測" },
+      { emoji: "🔒", label: "隔離處理" },
+    ],
+  },
+  "device-location": {
+    title: "從位址找回實體位置",
+    caption: "IP → MAC → 交換器埠 → 教室孔位，一層層追蹤才能定位。",
+    nodes: [
+      { emoji: "🔢", label: "IP 位址" },
+      { emoji: "🏷️", label: "MAC 位址" },
+      { emoji: "🔌", label: "交換器埠" },
+      { emoji: "📍", label: "實際位置" },
+    ],
+  },
+};
+
 export default async function TopicPage({
   params,
 }: {
@@ -38,6 +110,7 @@ export default async function TopicPage({
   const category = getCategory(topic.categorySlug);
   const a = accentClasses(category?.accent ?? "slate");
   const related = getRelatedTopics(topic);
+  const diagram = DIAGRAM_BY_CATEGORY[topic.categorySlug];
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
@@ -58,42 +131,59 @@ export default async function TopicPage({
 
       {category && (
         <span
-          className={`mt-4 inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[11px] font-medium ${a.badge}`}
+          className={`mt-4 inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[0.7rem] font-medium ${a.badge}`}
         >
           <span>{category.iconEmoji}</span>
           {category.name}
         </span>
       )}
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight leading-snug">
+      <h1 className="mt-3 text-3xl font-semibold tracking-tight leading-snug sm:text-4xl">
         {topic.title}
       </h1>
-      <p className="mt-3 text-base leading-7 text-zinc-600">{topic.summary}</p>
+      <p className="mt-3 text-lg leading-8 text-zinc-700">{topic.summary}</p>
+
+      {/* Visual break 1: hero illustration */}
+      {category && (
+        <TopicHero
+          emoji={category.iconEmoji}
+          accent={category.accent}
+          caption={topic.scenario}
+        />
+      )}
 
       {/* Scenario */}
-      <section className={`mt-7 rounded-xl border border-zinc-200 ${a.soft} p-5`}>
-        <div className={`text-[11px] font-semibold uppercase tracking-wider ${a.text}`}>
+      <section className={`mt-6 rounded-xl border border-zinc-200 ${a.soft} p-5`}>
+        <div className={`flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider ${a.text}`}>
+          <span aria-hidden>🎬</span>
           教室情境
         </div>
-        <p className="prose-body mt-2 text-[15px] leading-8 text-zinc-700">
+        <p className="prose-body mt-2 text-base leading-8 text-zinc-700">
           {topic.scenario}
         </p>
       </section>
 
       {/* Why */}
-      <SectionBlock title="為什麼會這樣？">
+      <SectionBlock title="為什麼會這樣？" emoji="💡">
         <p>{topic.whyItHappens}</p>
       </SectionBlock>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <SectionBlock title="你可能會看到">
-          <ul className="prose-body list-disc space-y-1 pl-5 text-[15px] text-zinc-700">
+      {/* Visual break 2: inline diagram */}
+      <InlineDiagram
+        title={diagram.title}
+        caption={diagram.caption}
+        nodes={diagram.nodes}
+      />
+
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <SectionBlock title="你可能會看到" emoji="👀">
+          <ul className="prose-body list-disc space-y-1 pl-5 text-base text-zinc-700">
             {topic.commonSymptoms.map((s) => (
               <li key={s}>{s}</li>
             ))}
           </ul>
         </SectionBlock>
-        <SectionBlock title="可以先安全檢查">
-          <ul className="prose-body list-disc space-y-1 pl-5 text-[15px] text-zinc-700">
+        <SectionBlock title="可以先安全檢查" emoji="✅">
+          <ul className="prose-body list-disc space-y-1 pl-5 text-base text-zinc-700">
             {topic.safeFirstChecks.map((s) => (
               <li key={s}>{s}</li>
             ))}
@@ -101,40 +191,55 @@ export default async function TopicPage({
         </SectionBlock>
       </div>
 
-      <div className="mt-5 rounded-xl border border-rose-200 bg-rose-50/70 p-5">
-        <div className="text-[11px] font-semibold uppercase tracking-wider text-rose-700">
+      <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50/70 p-5">
+        <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider text-rose-700">
+          <span aria-hidden>⛔</span>
           請不要這樣做
         </div>
-        <ul className="prose-body mt-2 list-disc space-y-1 pl-5 text-[15px] text-rose-900">
+        <ul className="prose-body mt-2 list-disc space-y-1 pl-5 text-base text-rose-900">
           {topic.doNotDo.map((s) => (
             <li key={s}>{s}</li>
           ))}
         </ul>
       </div>
 
-      <SectionBlock title="什麼時候需要通報？">
-        <p>{topic.whenToEscalate}</p>
-      </SectionBlock>
+      <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50/60 p-5">
+        <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider text-amber-800">
+          <span aria-hidden>📣</span>
+          什麼時候需要通報？
+        </div>
+        <p className="prose-body mt-2 text-base leading-8 text-amber-950">
+          {topic.whenToEscalate}
+        </p>
+      </div>
 
       {/* Audience versions */}
-      <section className="mt-10 rounded-xl border border-zinc-200 bg-white p-5">
-        <div className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
-          分眾版本
+      <section className="mt-8 rounded-2xl border border-zinc-200 bg-white p-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-500">
+              分眾版本
+            </div>
+            <h2 className="mt-1 text-lg font-semibold tracking-tight">
+              選擇你的身分，看適合你的說明
+            </h2>
+          </div>
+          <span className="hidden text-2xl sm:inline" aria-hidden>
+            🧑‍🏫
+          </span>
         </div>
-        <h2 className="mt-1 text-lg font-semibold tracking-tight">
-          選擇你的身分，看適合你的說明
-        </h2>
         <div className="mt-4">
           <AudienceTabs versions={topic.audienceVersions} />
         </div>
       </section>
 
       {/* IT technical note */}
-      <section className="mt-6 rounded-xl border border-zinc-300 bg-zinc-900 p-5 text-zinc-100">
-        <div className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
+      <section className="mt-6 rounded-2xl border border-zinc-300 bg-zinc-900 p-5 text-zinc-100">
+        <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-400">
+          <span aria-hidden>🛠️</span>
           資訊組備註 · Technical note
         </div>
-        <p className="prose-body mt-2 text-[14px] leading-7 text-zinc-200">
+        <p className="prose-body mt-2 text-sm leading-7 text-zinc-200">
           {topic.technicalNote}
         </p>
       </section>
@@ -144,7 +249,7 @@ export default async function TopicPage({
         {topic.symptomKeywords.map((k) => (
           <span
             key={k}
-            className="rounded-md bg-white px-2 py-1 text-[12px] text-zinc-600 ring-1 ring-zinc-200"
+            className="rounded-md bg-white px-2 py-1 text-xs text-zinc-600 ring-1 ring-zinc-200"
           >
             #{k}
           </span>
@@ -166,13 +271,22 @@ export default async function TopicPage({
   );
 }
 
-function SectionBlock({ title, children }: { title: string; children: React.ReactNode }) {
+function SectionBlock({
+  title,
+  emoji,
+  children,
+}: {
+  title: string;
+  emoji?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <section className="mt-6 rounded-xl border border-zinc-200 bg-white p-5">
-      <div className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+    <section className="mt-4 rounded-xl border border-zinc-200 bg-white p-5">
+      <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-500">
+        {emoji && <span aria-hidden>{emoji}</span>}
         {title}
       </div>
-      <div className="prose-body mt-2 text-[15px] leading-8 text-zinc-700">
+      <div className="prose-body mt-2 text-base leading-8 text-zinc-700">
         {children}
       </div>
     </section>

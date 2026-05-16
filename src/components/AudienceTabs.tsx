@@ -5,7 +5,6 @@ import { audienceLabel } from "@/lib/helpers";
 import type { AudienceContent, AudienceKey } from "@/lib/data";
 
 const ORDER: AudienceKey[] = [
-  "grade_1_3",
   "grade_4_6",
   "grade_7_9",
   "grade_10_12",
@@ -30,7 +29,7 @@ export function AudienceTabs({ versions }: { versions: AudienceContent[] }) {
               key={v.audience}
               type="button"
               onClick={() => setActive(v.audience)}
-              className={`rounded-md px-3 py-1.5 text-[13px] font-medium transition ${
+              className={`rounded-md px-3 py-1.5 text-[0.825rem] font-medium transition ${
                 isActive
                   ? "bg-zinc-900 text-white"
                   : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
@@ -41,7 +40,7 @@ export function AudienceTabs({ versions }: { versions: AudienceContent[] }) {
           );
         })}
       </div>
-      <div className="prose-body mt-5 whitespace-pre-line text-[15px] leading-8 text-zinc-700">
+      <div className="prose-body mt-5 whitespace-pre-line text-base leading-8 text-zinc-700">
         {current?.body}
       </div>
     </div>

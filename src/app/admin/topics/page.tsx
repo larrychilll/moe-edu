@@ -7,7 +7,7 @@ export default function AdminTopicsPage() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+          <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
             Content library
           </div>
           <h1 className="mt-1 text-2xl font-semibold tracking-tight">主題列表</h1>
@@ -32,7 +32,7 @@ export default function AdminTopicsPage() {
 
       <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
         <table className="w-full text-sm">
-          <thead className="bg-zinc-50 text-left text-[11px] uppercase tracking-wider text-zinc-500">
+          <thead className="bg-zinc-50 text-left text-[0.7rem] uppercase tracking-wider text-zinc-500">
             <tr>
               <th className="px-4 py-2.5 font-medium">標題</th>
               <th className="hidden px-4 py-2.5 font-medium sm:table-cell">分類</th>
@@ -54,14 +54,14 @@ export default function AdminTopicsPage() {
                     >
                       {t.title}
                     </Link>
-                    <div className="mt-0.5 truncate text-[12px] text-zinc-500">
+                    <div className="mt-0.5 truncate text-xs text-zinc-500">
                       {t.summary}
                     </div>
                   </td>
                   <td className="hidden px-4 py-3 sm:table-cell">
                     {c && (
                       <span
-                        className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] ${a.badge}`}
+                        className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[0.7rem] ${a.badge}`}
                       >
                         <span>{c.iconEmoji}</span>
                         {c.name}
@@ -73,7 +73,7 @@ export default function AdminTopicsPage() {
                       {t.symptomKeywords.slice(0, 2).map((k) => (
                         <span
                           key={k}
-                          className="rounded bg-zinc-100 px-1.5 py-0.5 text-[10px] text-zinc-600"
+                          className="rounded bg-zinc-100 px-1.5 py-0.5 text-[0.65rem] text-zinc-600"
                         >
                           {k}
                         </span>
@@ -81,7 +81,7 @@ export default function AdminTopicsPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-200">
+                    <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-2 py-0.5 text-[0.7rem] font-medium text-emerald-700 ring-1 ring-emerald-200">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       已發佈
                     </span>

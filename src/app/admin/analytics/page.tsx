@@ -24,13 +24,10 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-8">
       <header>
-        <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+        <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
           Analytics
         </div>
         <h1 className="mt-1 text-2xl font-semibold tracking-tight">使用分析</h1>
-        <p className="mt-1 text-sm text-zinc-500">
-          Phase 0.1 為模擬資料，正式版將接 PostHog 或自建紀錄。
-        </p>
       </header>
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -44,7 +41,7 @@ export default function AnalyticsPage() {
         <div className="rounded-xl border border-zinc-200 bg-white p-5">
           <div className="mb-3 flex items-end justify-between">
             <h2 className="text-sm font-semibold tracking-tight">熱門搜尋詞</h2>
-            <span className="text-[11px] text-zinc-500">過去 30 天</span>
+            <span className="text-[0.7rem] text-zinc-500">過去 30 天</span>
           </div>
           <ul className="space-y-2 text-sm">
             {SEARCH_TERMS.map((s) => {
@@ -70,7 +67,7 @@ export default function AnalyticsPage() {
         <div className="rounded-xl border border-zinc-200 bg-white p-5">
           <div className="mb-3 flex items-end justify-between">
             <h2 className="text-sm font-semibold tracking-tight">QR 入口掃描</h2>
-            <span className="text-[11px] tabular-nums text-zinc-500">
+            <span className="text-[0.7rem] tabular-nums text-zinc-500">
               共 {totalScans} 次
             </span>
           </div>
@@ -105,7 +102,7 @@ export default function AnalyticsPage() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-xl border border-zinc-200 bg-white p-4">
-      <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+      <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
         {label}
       </div>
       <div className="mt-1 text-2xl font-semibold tabular-nums tracking-tight">

@@ -53,10 +53,10 @@ function SiteHeader() {
             校
           </span>
           <span className="flex flex-col leading-tight">
-            <span className="text-[15px] font-semibold tracking-tight">
+            <span className="text-base font-semibold tracking-tight">
               校園網路小學堂
             </span>
-            <span className="hidden sm:block text-[11px] text-zinc-500">
+            <span className="hidden sm:block text-[0.7rem] text-zinc-500">
               Campus Network Learning Hub
             </span>
           </span>
@@ -65,12 +65,6 @@ function SiteHeader() {
           <NavLink href="/categories">問題分類</NavLink>
           <NavLink href="/learn/teacher">分眾學習</NavLink>
           <NavLink href="/qr/rm-201">QR 範例</NavLink>
-          <Link
-            href="/admin"
-            className="ml-1 rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50"
-          >
-            管理後台
-          </Link>
         </nav>
       </div>
     </header>
@@ -95,9 +89,6 @@ function SiteFooter() {
         <div>
           <span className="font-medium text-zinc-700">校園網路小學堂</span> ·
           由 Gentrice 為臺灣校園網路素養所製作
-        </div>
-        <div className="text-xs text-zinc-400">
-          Phase 0.1 Prototype · 內容僅供示意，正式版需經人工審核
         </div>
       </div>
     </footer>

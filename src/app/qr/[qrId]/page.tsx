@@ -46,7 +46,7 @@ export default async function QrLandingPage({
             📍
           </span>
           <div>
-            <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+            <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
               {TYPE_LABEL[q.locationType] ?? "現場"} · QR 入口
             </div>
             <h1 className="mt-0.5 text-xl font-semibold tracking-tight">
@@ -59,7 +59,7 @@ export default async function QrLandingPage({
           <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
             這個地點常見狀況
           </div>
-          <ul className="mt-2 space-y-1.5 text-[15px] leading-7 text-zinc-700">
+          <ul className="mt-2 space-y-1.5 text-base leading-7 text-zinc-700">
             {q.commonIssues.map((c) => (
               <li key={c} className="flex gap-2">
                 <span className="mt-2 h-1 w-1 flex-none rounded-full bg-zinc-400" />

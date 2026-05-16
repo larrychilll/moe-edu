@@ -10,7 +10,7 @@ export default function CategoriesPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <header className="mb-8">
-        <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-500">
+        <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
           Categories
         </div>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">問題分類</h1>
