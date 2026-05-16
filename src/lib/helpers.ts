@@ -1,5 +1,5 @@
-import { CATEGORIES, TOPICS, GRADE_BANDS, QR_LANDINGS } from "./data";
-import type { Category, CategorySlug, Topic, GradeBand, QrLanding, AudienceKey } from "./data";
+import { CATEGORIES, TOPICS, QR_LANDINGS } from "./data";
+import type { Category, CategorySlug, Topic, QrLanding } from "./data";
 
 export function getCategory(slug: string): Category | undefined {
   return CATEGORIES.find((c) => c.slug === slug);
@@ -19,27 +19,8 @@ export function getRelatedTopics(topic: Topic): Topic[] {
     .filter((t): t is Topic => Boolean(t));
 }
 
-export function getGradeBand(slug: string): GradeBand | undefined {
-  return GRADE_BANDS.find((g) => g.slug === slug);
-}
-
 export function getQrLanding(id: string): QrLanding | undefined {
   return QR_LANDINGS.find((q) => q.id === id);
-}
-
-export function audienceLabel(key: AudienceKey): string {
-  switch (key) {
-    case "grade_4_6":
-      return "國小高年級";
-    case "grade_7_9":
-      return "國中";
-    case "grade_10_12":
-      return "高中";
-    case "teacher":
-      return "老師版";
-    case "it_staff":
-      return "資訊組老師版";
-  }
 }
 
 type AccentClasses = {

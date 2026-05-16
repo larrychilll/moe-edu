@@ -22,7 +22,7 @@ const notoTc = Noto_Sans_TC({
 export const metadata: Metadata = {
   title: "校園網路小學堂 | Campus Network Learning Hub",
   description:
-    "把複雜的校園網路問題，變成老師、學生、行政人員都看得懂的小知識。",
+    "把校園網路常見的疑難雜症，用白話、實例與圖解整理成一頁看得懂的小知識。",
 };
 
 export default function RootLayout({
@@ -63,7 +63,6 @@ function SiteHeader() {
         </Link>
         <nav className="flex items-center gap-1 text-sm">
           <NavLink href="/categories">問題分類</NavLink>
-          <NavLink href="/learn/teacher">分眾學習</NavLink>
           <NavLink href="/qr/rm-201">QR 範例</NavLink>
         </nav>
       </div>

@@ -8,7 +8,6 @@ import {
   getRelatedTopics,
   getTopic,
 } from "@/lib/helpers";
-import { AudienceTabs } from "@/components/AudienceTabs";
 import { TopicCard } from "@/components/TopicCard";
 import { TopicHero } from "@/components/TopicHero";
 import { InlineDiagram } from "@/components/InlineDiagram";
@@ -48,22 +47,22 @@ const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
     ],
   },
   "network-slow": {
-    title: "頻寬是大家共用的",
-    caption: "如果有一台設備吃掉大部分頻寬，其他人就會跟著變慢。",
+    title: "網路速度是大家共用的",
+    caption: "如果有一台設備吃掉大部分網路速度，其他人就會跟著變慢。",
     nodes: [
       { emoji: "👥", label: "多位使用者" },
       { emoji: "📡", label: "共用設備" },
-      { emoji: "🚦", label: "頻寬瓶頸" },
+      { emoji: "🚦", label: "塞車路口" },
       { emoji: "🐢", label: "其他人變慢" },
     ],
   },
   "wifi-issues": {
     title: "Wi-Fi 訊號需要傳到位",
-    caption: "AP 容量、距離、干擾與 SSID 選擇，都會影響無線連線品質。",
+    caption: "Wi-Fi 基地台容量、距離、干擾，加上選錯網路，都會影響連線品質。",
     nodes: [
-      { emoji: "📱", label: "學生裝置" },
+      { emoji: "📱", label: "你的裝置" },
       { emoji: "📶", label: "Wi-Fi 訊號" },
-      { emoji: "🛰️", label: "AP 基地台" },
+      { emoji: "🛰️", label: "Wi-Fi 基地台" },
       { emoji: "🏫", label: "校園網路" },
     ],
   },
@@ -72,7 +71,7 @@ const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
     caption: "電腦把工作送到印表機，途中任何一段有問題都會卡住。",
     nodes: [
       { emoji: "💻", label: "電腦送印" },
-      { emoji: "📨", label: "列印佇列" },
+      { emoji: "📨", label: "排隊清單" },
       { emoji: "🌐", label: "網路傳輸" },
       { emoji: "🖨️", label: "印表機" },
     ],
@@ -83,18 +82,18 @@ const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
     nodes: [
       { emoji: "💻", label: "受感染裝置" },
       { emoji: "⚠️", label: "異常流量" },
-      { emoji: "🛡️", label: "資訊組偵測" },
+      { emoji: "🛡️", label: "偵測警示" },
       { emoji: "🔒", label: "隔離處理" },
     ],
   },
   "device-location": {
     title: "從位址找回實體位置",
-    caption: "IP → MAC → 交換器埠 → 教室孔位，一層層追蹤才能定位。",
+    caption: "從網路位址、設備編號、機房線路一層層追蹤，才找得到實際在哪間教室。",
     nodes: [
-      { emoji: "🔢", label: "IP 位址" },
-      { emoji: "🏷️", label: "MAC 位址" },
-      { emoji: "🔌", label: "交換器埠" },
-      { emoji: "📍", label: "實際位置" },
+      { emoji: "🔢", label: "網路位址" },
+      { emoji: "🏷️", label: "設備編號" },
+      { emoji: "🔌", label: "機房線路" },
+      { emoji: "📍", label: "實際教室" },
     ],
   },
 };
@@ -213,31 +212,11 @@ export default async function TopicPage({
         </p>
       </div>
 
-      {/* Audience versions */}
-      <section className="mt-8 rounded-2xl border border-zinc-200 bg-white p-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-500">
-              分眾版本
-            </div>
-            <h2 className="mt-1 text-lg font-semibold tracking-tight">
-              選擇你的身分，看適合你的說明
-            </h2>
-          </div>
-          <span className="hidden text-2xl sm:inline" aria-hidden>
-            🧑‍🏫
-          </span>
-        </div>
-        <div className="mt-4">
-          <AudienceTabs versions={topic.audienceVersions} />
-        </div>
-      </section>
-
-      {/* IT technical note */}
+      {/* Technical detail */}
       <section className="mt-6 rounded-2xl border border-zinc-300 bg-zinc-900 p-5 text-zinc-100">
         <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-400">
           <span aria-hidden>🛠️</span>
-          資訊組備註 · Technical note
+          技術細節
         </div>
         <p className="prose-body mt-2 text-sm leading-7 text-zinc-200">
           {topic.technicalNote}

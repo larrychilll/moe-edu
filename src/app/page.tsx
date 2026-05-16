@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CATEGORIES, GRADE_BANDS, TOPICS } from "@/lib/data";
+import { CATEGORIES, TOPICS } from "@/lib/data";
 import { getTopicsByCategory } from "@/lib/helpers";
 import { CategoryCard } from "@/components/CategoryCard";
 import { TopicCard } from "@/components/TopicCard";
@@ -36,7 +36,7 @@ export default function HomePage() {
               。
             </h1>
             <p className="mt-4 text-base leading-7 text-zinc-600 sm:text-lg">
-              把複雜的校園網路問題 — IP 衝突、AP 過載、廣播風暴、線材老化 — 變成老師、學生、行政人員都看得懂的小知識。
+              把校園網路常見的疑難雜症 — IP 衝突、AP 過載、廣播風暴、線材老化 — 用白話、實例與圖解，整理成一頁看得懂的小知識。
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
@@ -44,12 +44,6 @@ export default function HomePage() {
                 className="rounded-md bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-zinc-800"
               >
                 瀏覽問題分類
-              </Link>
-              <Link
-                href="/learn/teacher"
-                className="rounded-md border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-              >
-                我是老師
               </Link>
               <Link
                 href="/qr/rm-201"
@@ -62,24 +56,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Quick role entry */}
-      <section className="mx-auto max-w-6xl px-4 py-10">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-6">
-          {GRADE_BANDS.map((g) => (
-            <Link
-              key={g.slug}
-              href={`/learn/${g.slug}`}
-              className="rounded-lg border border-zinc-200 bg-white px-3 py-3 text-center text-sm font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50"
-            >
-              <div className="text-[0.825rem]">{g.name}</div>
-              <div className="mt-0.5 text-[0.7rem] text-zinc-500">{g.tagline}</div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
       {/* Categories */}
-      <section className="mx-auto max-w-6xl px-4 py-6">
+      <section className="mx-auto max-w-6xl px-4 py-10">
         <div className="mb-5 flex items-end justify-between">
           <div>
             <h2 className="text-xl font-semibold tracking-tight">問題分類</h2>
@@ -101,10 +79,10 @@ export default function HomePage() {
       </section>
 
       {/* Popular */}
-      <section className="mx-auto max-w-6xl px-4 py-10">
+      <section className="mx-auto max-w-6xl px-4 py-6 pb-12">
         <div className="mb-5">
           <h2 className="text-xl font-semibold tracking-tight">熱門主題</h2>
-          <p className="mt-1 text-sm text-zinc-500">老師最常遇到的網路問題。</p>
+          <p className="mt-1 text-sm text-zinc-500">校園裡最常遇到的網路狀況。</p>
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {popularTopics.map(

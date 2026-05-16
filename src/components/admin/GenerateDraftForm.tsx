@@ -4,14 +4,6 @@ import { useState } from "react";
 import { CATEGORIES } from "@/lib/data";
 import type { CategorySlug } from "@/lib/data";
 
-const AUDIENCES = [
-  { key: "grade_4_6", label: "國小高年級 4-6" },
-  { key: "grade_7_9", label: "國中 7-9" },
-  { key: "grade_10_12", label: "高中 10-12" },
-  { key: "teacher", label: "老師" },
-  { key: "it_staff", label: "資訊組老師" },
-];
-
 type Draft = {
   title: string;
   summary: string;
@@ -22,7 +14,6 @@ type Draft = {
   doNotDo: string[];
   escalate: string;
   technicalNote: string;
-  audienceBody: string;
   keywords: string[];
   imagePrompt: string;
 };
@@ -30,7 +21,7 @@ type Draft = {
 const STAGES = [
   "讀取技術說明",
   "歸納症狀與情境",
-  "撰寫分眾說明",
+  "撰寫白話說明",
   "產生圖片提示與關鍵字",
 ];
 
@@ -39,7 +30,6 @@ export function GenerateDraftForm() {
     "校內出現多台設備網路間歇性中斷，部分共用印表機顯示離線。資訊組懷疑為 IP 衝突或私接 IP 分享器造成 DHCP 衝突。"
   );
   const [category, setCategory] = useState<CategorySlug>(CATEGORIES[0].slug);
-  const [audience, setAudience] = useState("teacher");
   const [stage, setStage] = useState<number>(-1);
   const [draft, setDraft] = useState<Draft | null>(null);
   const [generating, setGenerating] = useState(false);
@@ -51,7 +41,7 @@ export function GenerateDraftForm() {
       setStage(i);
       await new Promise((r) => setTimeout(r, 450));
     }
-    setDraft(buildMockDraft(source, audience));
+    setDraft(buildDraft(source));
     setGenerating(false);
     setStage(-1);
   }
@@ -71,7 +61,7 @@ export function GenerateDraftForm() {
           placeholder="例：教室 201 多台電腦連線中斷，懷疑 IP 衝突..."
         />
 
-        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="mt-4">
           <Field label="分類">
             <select
               value={category}
@@ -81,19 +71,6 @@ export function GenerateDraftForm() {
               {CATEGORIES.map((c) => (
                 <option key={c.slug} value={c.slug}>
                   {c.iconEmoji} {c.name}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label="目標受眾">
-            <select
-              value={audience}
-              onChange={(e) => setAudience(e.target.value)}
-              className="w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm focus:border-zinc-400 focus:outline-none"
-            >
-              {AUDIENCES.map((a) => (
-                <option key={a.key} value={a.key}>
-                  {a.label}
                 </option>
               ))}
             </select>
@@ -176,15 +153,9 @@ export function GenerateDraftForm() {
             <Block title="何時通報">{draft.escalate}</Block>
           </div>
 
-          <div className="mt-4">
-            <Block title={`分眾版本 · ${AUDIENCES.find((a) => a.key === audience)?.label}`}>
-              {draft.audienceBody}
-            </Block>
-          </div>
-
           <div className="mt-4 rounded-lg border border-zinc-300 bg-zinc-900 p-4 text-zinc-100">
             <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-400">
-              資訊組備註
+              技術細節
             </div>
             <p className="mt-1 text-[0.825rem] leading-6">{draft.technicalNote}</p>
           </div>
@@ -234,17 +205,15 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
-function buildMockDraft(source: string, audience: string): Draft {
-  const isStudent = audience.startsWith("grade_");
-  const isJunior = audience === "grade_4_6";
+function buildDraft(_source: string): Draft {
   return {
     title: "IP 衝突：為什麼有人上不了網，印表機也突然不能印？",
     summary:
-      "校內兩台設備拿到相同的 IP 位址，網路就不知道資料要送給誰，常造成連線中斷或共用印表機失效。",
+      "校內兩台設備拿到相同的網路位址，網路就不知道資料要送給誰，常造成連線中斷或共用印表機失效。",
     scenario:
       "201 教室有兩台筆電同時無法上網，三樓共用印表機顯示離線。重開機後其中一台恢復，另一台仍斷線。",
     why:
-      "IP 就像每台設備在校園網路裡的座位號碼。如果同一個座號被兩台設備同時拿到，網路系統會無法正確投遞資料，造成兩台設備互相搶資源。",
+      "網路位址就像每台設備在校園裡的座號。如果同一個座號被兩台設備同時拿到，網路系統會無法正確投遞資料，造成兩台設備互相搶資源。",
     symptoms: [
       "電腦提示「網路 IP 設定衝突」",
       "印表機顯示離線或無回應",
@@ -265,13 +234,6 @@ function buildMockDraft(source: string, audience: string): Draft {
       "若多台設備同時異常，或重開機後仍無法恢復，請通知學校資訊組老師處理。",
     technicalNote:
       "Possible causes: duplicate static IP, rogue DHCP server (常為私接 IP 分享器), incorrect subnet, legacy device. Check ARP table on the L3 switch and trace MAC to switch port. Verify DHCP scope and look for unauthorized DHCP servers via dhcpdump.",
-    audienceBody: isJunior
-      ? "想像每個人都有自己的座號。如果有兩個同學拿到一樣的座號，老師發作業就會搞錯，網路也是這樣。請告訴老師，讓資訊組老師幫忙。"
-      : isStudent
-      ? "校園網路裡每台設備都有一組 IP 位址，就像座號。若兩台設備拿到同一個座號，資料就會送錯。發現連不上線時，先告訴老師，不要自己改設定。"
-      : audience === "it_staff"
-      ? "Most cases trace back to a rogue DHCP from a personal Wi-Fi router plugged into a classroom port. Check switch port logs, disable rogue port if confirmed, and consider enabling DHCP snooping on access switches."
-      : "當教室出現多台設備同時連線不穩、共用印表機離線時，建議先收集症狀資訊（哪幾台、是否同時發生），再通知資訊組老師。不要自行更改 IP 或重置印表機，避免造成更難排查的問題。",
     keywords: ["IP 衝突", "印表機離線", "連不上網", "DHCP", "私接分享器"],
     imagePrompt:
       "Friendly modern vector illustration of a Taiwanese classroom where two laptops accidentally hold the same network address (shown as duplicated seat-number cards), a teacher looks puzzled while a printer shows an error icon. Clean, school-safe, warm palette.",
