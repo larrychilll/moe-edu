@@ -125,7 +125,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若確認全校都斷，請立即通報資訊組老師，由學校統一聯絡電信業者，不需各教室個別處理。",
     technicalNote:
-      "Likely upstream WAN outage from ISP. Check edge router WAN status, BGP/PPPoE session, optical signal on the ONU. If校內 LAN/intranet 仍通，問題在 WAN 側。Open ticket with ISP and record incident timeline.",
+      "多半是電信業者的對外線路出狀況。可以從校門邊界路由器的外部連線狀態與光纖訊號燈判斷。如果校內網路彼此還通，問題就確認在對外段，請學校統一向電信業者開單，並記下中斷時間。",
     symptomKeywords: ["全校斷網", "連不到 Google", "對外線路", "WAN", "電信線路"],
     relatedSlugs: ["external-switch-failure", "fiber-abnormal", "vendor-responsibility"],
     imagePrompt:
@@ -161,7 +161,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "確認影響範圍跨棟、跨樓時，請第一時間通報資訊組，由資訊組依現場狀況決定是否需要原廠或維護廠商支援。",
     technicalNote:
-      "Core/aggregation switch failure — check PSU, fans, port LEDs, syslog. Failover to backup uplink if available. Vendor RMA may be needed. Document affected VLANs and downstream switches.",
+      "核心交換器故障時，先檢查電源、風扇、各埠燈號與系統紀錄。若有備援上行線可以切換，能先恢復服務。硬體損壞通常需要送原廠維修，並記下受影響的網段與下游設備。",
     symptomKeywords: ["核心交換器", "多棟樓斷網", "機房異常", "硬體故障"],
     relatedSlugs: ["external-line-down", "fiber-abnormal", "vendor-responsibility"],
     imagePrompt:
@@ -197,7 +197,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若整層樓同時異常並伴隨交換器燈號狂閃，請立即通報資訊組，並避免再有人插拔網路線。",
     technicalNote:
-      "Network loop — broadcast storm signature. Enable STP/RSTP on access switches, configure BPDU guard and loop guard on edge ports. Identify loop port via MAC flap logs, shut/no-shut after physical removal.",
+      "網路迴圈會在交換器上產生大量重複訊息流動的跡象。預防上會在存取交換器啟用 STP（生成樹）防迴圈，並針對對外埠開啟 BPDU 與迴圈保護。找出迴圈後實體拔除問題線，再重新啟用該埠即可恢復。",
     symptomKeywords: ["網路迴圈", "整層樓斷網", "廣播風暴", "亂接線"],
     relatedSlugs: ["broadcast-storm", "rogue-dhcp", "line-tracing"],
     imagePrompt:
@@ -233,7 +233,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "發現可疑分享器或設備拿到奇怪 IP 時，請通報資訊組，由資訊組依授權處理私接設備。",
     technicalNote:
-      "Rogue DHCP server (often consumer router). Enable DHCP snooping on access switches, trust only the school DHCP uplink. Identify rogue MAC via ARP table; locate switch port and disable.",
+      "校園裡多出的家用分享器最常造成異常 DHCP。預防方式是在存取交換器啟用 DHCP snooping，只信任學校 DHCP 的上行埠。發現後可由設備編號（MAC）反查到實體埠位，先停用該埠再現場處理。",
     symptomKeywords: ["IP 分享器", "私接設備", "DHCP 異常", "拿到怪 IP"],
     relatedSlugs: ["ip-conflict-printer", "network-loop", "find-ip-device"],
     imagePrompt:
@@ -269,7 +269,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若某段網路反覆時通時斷且影響特定區域，請通報資訊組，由專業人員檢查光功率並安排維護廠商。",
     technicalNote:
-      "Check optical TX/RX power on SFP, compare to threshold. Inspect fiber for bend radius, dirty connectors (clean with proper tool), or rodent damage. Consider OTDR test for longer segments.",
+      "可從交換器的光模組（SFP）讀出發送與接收的光功率，跟正常閾值比對。實體上要檢查光纖彎折半徑、接頭髒污或被動物咬傷。較長線段建議用 OTDR 測線儀檢測。",
     symptomKeywords: ["光纖", "時通時斷", "光訊號弱", "光功率"],
     relatedSlugs: ["external-line-down", "cable-old-damaged", "line-tracing"],
     imagePrompt:
@@ -305,7 +305,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若多台設備同時異常，或重開機後仍無法恢復，請通報資訊組，由資訊組找出衝突來源。",
     technicalNote:
-      "Duplicate IP — often static IP misconfigured on a new device, or rogue DHCP. Check ARP table on L3 switch, identify MAC pair sharing the IP, trace to switch port. Verify DHCP scope and reservations.",
+      "網路位址重複常見成因是新設備被誤設了固定位址，或校內出現異常 DHCP。可從核心交換器的位址對應表（ARP）找出共用同一位址的兩台設備，再追到實體埠位。同時也要檢查 DHCP 發放範圍與保留設定。",
     symptomKeywords: ["IP 衝突", "印表機離線", "連不上網", "DHCP 異常"],
     relatedSlugs: ["rogue-dhcp", "printer-offline", "find-ip-device"],
     imagePrompt:
@@ -343,7 +343,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若多次反覆出現且找不到單一來源，請通報資訊組，由資訊組查看流量紀錄定位來源。",
     technicalNote:
-      "Look at flow records (NetFlow/sFlow) or per-port utilization on access switch. Identify top talker, correlate to user/device. Common causes: cloud backup, OS update, P2P, mining malware.",
+      "可從流量紀錄或交換器各埠用量找出耗用最大的設備。常見原因是雲端備份、作業系統更新、點對點傳輸或惡意挖礦程式。若反覆發生，可考慮針對教室網段設流量限速。",
     symptomKeywords: ["網路很慢", "整班卡頓", "流量爆量", "頻寬被吃"],
     relatedSlugs: ["broadcast-storm", "ap-overload", "malware-infection"],
     imagePrompt:
@@ -379,7 +379,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若同一間教室反覆出現網路慢且伴隨設備溫度異常，請通報資訊組安排檢修或更換。",
     technicalNote:
-      "Aging L2 switch may suffer CPU saturation, buffer exhaustion or thermal throttling. Check CPU/memory, port error counters, temperature. Plan for replacement if EOL.",
+      "老舊交換器常因 CPU 滿載、暫存區用盡或散熱不良而反應變慢。可以查設備的 CPU 與記憶體使用率、各埠錯誤計數與機體溫度。若已超過建議使用年限，應規劃汰換。",
     symptomKeywords: ["教室慢", "交換器", "過熱", "L2 反應慢"],
     relatedSlugs: ["broadcast-storm", "cable-old-damaged", "heavy-traffic-pc"],
     imagePrompt:
@@ -415,7 +415,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若廣播風暴跨多教室同時出現，請立刻通報資訊組，由資訊組從機房側阻斷異常源頭。",
     technicalNote:
-      "Broadcast storm typically from L2 loop, faulty NIC, or misconfigured device. Enable STP/BPDU guard, storm-control on access ports. Identify ingress port via switch counters.",
+      "廣播風暴最常由實體迴圈、故障網卡或設定錯誤的設備觸發。預防上會在交換器啟用 STP（生成樹）與廣播流量限制。發生時可從各埠的流量計數爆量找到入侵埠並暫時停用。",
     symptomKeywords: ["廣播風暴", "多教室斷網", "突然超慢", "storm"],
     relatedSlugs: ["network-loop", "abnormal-broadcast", "l2-switch-slow"],
     imagePrompt:
@@ -451,7 +451,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若廣播流量持續異常，但教室沒有明顯感覺，仍建議通報資訊組安排排查。",
     technicalNote:
-      "Locate broadcast source via switch port counters. Common culprits: aging NIC, faulty printer, malware (e.g., ARP scanner). Isolate, replace NIC or update firmware as needed.",
+      "可從交換器各埠的計數找到一直發出廣播的來源。常見元兇是老舊網卡、故障印表機或被植入 ARP 掃描的惡意程式。確認後先隔離該設備，再決定換零件或更新韌體。",
     symptomKeywords: ["異常廣播", "網路慢", "舊印表機", "ARP 掃描"],
     relatedSlugs: ["broadcast-storm", "malware-infection", "heavy-traffic-pc"],
     imagePrompt:
@@ -487,7 +487,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若更換線材後問題仍在，或牆面孔位異常，請通報資訊組安排線路與點位檢查。",
     technicalNote:
-      "Replace patch cable, inspect RJ45 termination, run cable tester (NEXT, return loss). Inspect wall plate keystone. Replace damaged cabling promptly.",
+      "可先換一條測試線確認是否就是線材問題，再用測線儀檢測串音與回波。牆面端子若鬆動或變色也要更換。確認損壞後盡早換新，避免影響擴大。",
     symptomKeywords: ["線材老化", "網路斷斷續續", "接觸不良", "破皮網路線"],
     relatedSlugs: ["fiber-abnormal", "line-tracing", "find-ip-device"],
     imagePrompt:
@@ -525,7 +525,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若同一區域長期負載過高，請通報資訊組評估增加 AP 或調整覆蓋設計。",
     technicalNote:
-      "AP saturation — check associated client count, channel utilization, retry rate. Consider band steering, increasing AP density, splitting SSIDs, or limiting per-client bandwidth.",
+      "可從基地台後台查看連線人數、頻道使用率與重送率判斷是否飽和。改善方式包括引導裝置改連 5GHz、增設基地台、拆分網路名稱（SSID），或限制單機頻寬上限。",
     symptomKeywords: ["Wi-Fi 卡", "AP 過載", "連不上 Wi-Fi", "圖書館慢"],
     relatedSlugs: ["wifi-weak-signal", "wifi-wrong-network", "heavy-traffic-pc"],
     imagePrompt:
@@ -561,7 +561,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若整間教室訊號普遍偏弱，請通報資訊組評估增設或調整 AP 位置。",
     technicalNote:
-      "RSSI < -75 dBm usually means poor coverage. Check site survey, AP placement, channel interference. Consider AP relocation or additional coverage.",
+      "訊號強度（RSSI）低於 -75 dBm 通常代表收訊不足。建議重新檢視場勘紀錄、基地台位置與鄰近頻道干擾，必要時調整基地台擺放或增加覆蓋密度。",
     symptomKeywords: ["Wi-Fi 訊號弱", "Wi-Fi 慢", "角落收不到", "RSSI"],
     relatedSlugs: ["ap-overload", "wifi-wrong-network", "cable-old-damaged"],
     imagePrompt:
@@ -597,7 +597,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若教學 Wi-Fi 多次無法連線或登入，請通報資訊組檢查帳號與認證系統。",
     technicalNote:
-      "Multiple SSID with different VLAN/policy. Verify SSID-to-VLAN mapping, captive portal status, RADIUS authentication. Educate users on which SSID to choose.",
+      "校園多個 Wi-Fi 名稱（SSID）通常對應不同的網段與權限。確認名稱與網段對應、登入頁面與 RADIUS 認證狀態都正常。並透過告示或教育，引導使用者連到正確的名稱。",
     symptomKeywords: ["接錯 Wi-Fi", "訪客網路", "登入不了", "SSID"],
     relatedSlugs: ["ap-overload", "wifi-weak-signal", "phishing-link"],
     imagePrompt:
@@ -635,7 +635,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若全室都無法列印超過十分鐘，請通報資訊組或印表機管理人員處理。",
     technicalNote:
-      "Check printer IP/static assignment, ping reachability, check print queue, restart spooler. Common: DHCP changed printer IP, IP conflict, firmware lockup.",
+      "先確認印表機的網路位址與電腦端設定，並嘗試 ping 通與重啟列印服務（spooler）。常見成因是 DHCP 重新指派造成位址改變、位址衝突，或印表機韌體當機。",
     symptomKeywords: ["印表機離線", "不能列印", "印表機找不到", "spooler"],
     relatedSlugs: ["ip-conflict-printer", "shared-folder-fail", "duplicate-print-job"],
     imagePrompt:
@@ -671,7 +671,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若多人同時無法存取，請通報資訊組檢查檔案伺服器與權限。",
     technicalNote:
-      "Check SMB service status on file server, event logs, share/NTFS permissions. Validate DNS for the server name. Check authentication service if AD-joined.",
+      "先確認檔案伺服器的 SMB 服務狀態、事件紀錄與分享/NTFS 權限。也要檢查伺服器名稱的 DNS 解析。若加入了網域（AD），需檢查網域控制器是否運作正常。",
     symptomKeywords: ["共享資料夾", "檔案伺服器", "權限", "SMB"],
     relatedSlugs: ["printer-offline", "vendor-responsibility", "malware-infection"],
     imagePrompt:
@@ -707,7 +707,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若佇列無法被釋放，請通報資訊組或印表機管理人員協助清除並重新啟動 spooler。",
     technicalNote:
-      "Clear stuck job via print server queue, restart Print Spooler service. If recurring, check driver compatibility, paper sensor, or firmware update.",
+      "清除卡住的列印工作，並重新啟動列印服務（Print Spooler）即可恢復。若反覆發生，需要檢查驅動程式相容性、紙張感應器或更新印表機韌體。",
     symptomKeywords: ["印不出來", "印列佇列卡", "spooler", "紙張卡住"],
     relatedSlugs: ["printer-offline", "ip-conflict-printer", "shared-folder-fail"],
     imagePrompt:
@@ -745,7 +745,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若懷疑電腦被感染，請立刻斷網並通報資訊組，避免擴散。",
     technicalNote:
-      "Isolate machine from network (not power off — preserve volatile evidence). Run AV scan, check logs. If ransomware, do not pay; consult incident response plan.",
+      "先將電腦從網路隔離（不要關機，以保留鑑識資料），執行掃毒並檢視系統紀錄。若是勒索軟體，切勿付款，並依資安事件處理流程從乾淨備份還原。",
     symptomKeywords: ["惡意程式", "勒索軟體", "電腦中毒", "怪流量"],
     relatedSlugs: ["abnormal-broadcast", "phishing-link", "l3-switch-attack"],
     imagePrompt:
@@ -781,7 +781,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若資訊組已在排查，請配合公告並保持冷靜。L3 設備異常通常需要由資訊組與廠商共同處理。",
     technicalNote:
-      "Check L3 switch CPU, ARP table size, control plane policing. Look for ARP scanning, large MAC tables, or rogue device. Apply CoPP, storm-control, DAI if needed.",
+      "檢查核心交換器的 CPU 用量、位址對應表（ARP）規模與控制平面負載。若有大量掃描或不正常設備，可啟用控制平面流量限制（CoPP）、廣播風暴防護與動態 ARP 檢查（DAI）。",
     symptomKeywords: ["L3 交換器", "內網慢", "ARP 攻擊", "CPU 高"],
     relatedSlugs: ["broadcast-storm", "abnormal-broadcast", "malware-infection"],
     imagePrompt:
@@ -817,7 +817,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若已輸入帳密、下載檔案或察覺異常，請立刻通報資訊組，並更改相關密碼。",
     technicalNote:
-      "Phishing — hover to inspect URL, validate sender, check SPF/DKIM/DMARC. If credentials exposed, rotate password and enable MFA. Inspect mailbox rules for malicious forwarding.",
+      "可將滑鼠停在連結上檢查真正網址，並查看寄件者與郵件驗證紀錄（SPF/DKIM/DMARC）。若已輸入帳密，立即更換密碼並啟用兩步驟驗證，同時檢查信箱規則是否被偷偷設了轉寄。",
     symptomKeywords: ["釣魚連結", "假網站", "假郵件", "社交工程"],
     relatedSlugs: ["malware-infection", "wifi-wrong-network", "vendor-responsibility"],
     imagePrompt:
@@ -855,7 +855,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若該設備行為異常或疑似資安事件，請通報資訊組依資安事件處理流程處置。",
     technicalNote:
-      "Workflow: ARP (IP→MAC) → MAC address table on access switch (MAC→port) → patch panel mapping (port→room/jack). Maintain accurate documentation for fast tracing.",
+      "標準流程：先用位址對應表（ARP）從網路位址查到設備編號（MAC），再到交換器查到實體埠，最後對照線路文件找到教室孔位。完整的設備文件能大幅縮短追蹤時間。",
     symptomKeywords: ["找 IP", "查設備位置", "ARP", "MAC table"],
     relatedSlugs: ["line-tracing", "unlabeled-network-port", "rogue-dhcp"],
     imagePrompt:
@@ -891,7 +891,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若需要進行大規模整理，請通報資訊組規劃，必要時聯絡專業弱電廠商。",
     technicalNote:
-      "Use cable toner, label patch panel and wall plates, build a port mapping spreadsheet. Plan periodic audits. Consider intelligent patch panel for larger campuses.",
+      "可用測線器（Toner）找線，並在機房面板與牆面端子兩端貼上一致的標籤。建立並維護點位對照表，定期巡查。大型校園可考慮智慧型機房面板輔助管理。",
     symptomKeywords: ["查線困難", "線路追蹤", "點位文件", "牆面孔位"],
     relatedSlugs: ["unlabeled-network-port", "find-ip-device", "vendor-responsibility"],
     imagePrompt:
@@ -927,7 +927,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若教室孔位混亂，請建議資訊組規劃一次性整理與標示。",
     technicalNote:
-      "Standardise labelling scheme (e.g., RM-201-J1), use colored faceplates per VLAN purpose, document in port map. Onboarding doc for new teachers helps reduce confusion.",
+      "制定統一的標籤格式（例如：RM-201-J1），並用不同顏色面板區隔不同網段用途。每間教室準備一份簡易說明，並更新給新進老師的入職資料。",
     symptomKeywords: ["孔位沒標", "插錯網路孔", "教室孔位", "VLAN"],
     relatedSlugs: ["line-tracing", "find-ip-device", "wifi-wrong-network"],
     imagePrompt:
@@ -963,7 +963,7 @@ export const TOPICS: Topic[] = [
     whenToEscalate:
       "若責任歸屬不清且影響擴大，請通報行政與資訊組層級主管，依合約程序處理。",
     technicalNote:
-      "Maintain a vendor matrix: scope, SLA, contact, contract reference. Single point of contact (資訊組) coordinates. Document incidents and SLA performance.",
+      "建立廠商對照表，列出服務範圍、回應時限（SLA）、聯絡窗口與合約編號。所有故障由資訊組統一回報並紀錄，定期檢視廠商履約狀況。",
     symptomKeywords: ["廠商歸屬", "處理太慢", "合約不清", "SLA"],
     relatedSlugs: ["external-line-down", "external-switch-failure", "fiber-abnormal"],
     imagePrompt:

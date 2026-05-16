@@ -16,7 +16,7 @@ export function TopicCard({ topic, showCategory = false }: { topic: Topic; showC
           {category.name}
         </span>
       )}
-      <h3 className="text-base font-semibold leading-snug tracking-tight">{topic.title}</h3>
+      <h3 className="text-base font-semibold leading-snug tracking-tight">{topic.title.split(/[:：]/)[0]}</h3>
       <p className="text-sm leading-6 text-zinc-600 line-clamp-2">{topic.summary}</p>
       <div className="mt-1 flex flex-wrap gap-1.5">
         {topic.symptomKeywords.slice(0, 3).map((k) => (
