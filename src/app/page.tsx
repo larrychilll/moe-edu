@@ -1,65 +1,117 @@
-import Image from "next/image";
+import Link from "next/link";
+import { CATEGORIES, GRADE_BANDS, TOPICS } from "@/lib/data";
+import { getTopicsByCategory } from "@/lib/helpers";
+import { CategoryCard } from "@/components/CategoryCard";
+import { TopicCard } from "@/components/TopicCard";
 
-export default function Home() {
+export default function HomePage() {
+  const popularTopics = [
+    "ip-conflict-printer",
+    "ap-overload",
+    "wifi-weak-signal",
+    "broadcast-storm",
+    "printer-offline",
+    "find-ip-device",
+  ]
+    .map((s) => TOPICS.find((t) => t.slug === s))
+    .filter(Boolean);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div>
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-zinc-200 bg-white">
+        <div className="absolute inset-0 -z-0 bg-[radial-gradient(ellipse_at_top,rgba(125,211,252,0.18),transparent_55%)]" />
+        <div className="relative mx-auto max-w-6xl px-4 py-14 sm:py-20">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1 text-[11px] font-medium text-zinc-600">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              Gentrice 校園網路素養平台 · Phase 0.1
+            </div>
+            <h1 className="mt-5 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-5xl">
+              校園網路問題，
+              <br className="hidden sm:block" />
+              <span className="bg-gradient-to-r from-sky-600 to-violet-600 bg-clip-text text-transparent">
+                看得懂才好處理
+              </span>
+              。
+            </h1>
+            <p className="mt-4 text-base leading-7 text-zinc-600 sm:text-lg">
+              把複雜的校園網路問題 — IP 衝突、AP 過載、廣播風暴、線材老化 — 變成老師、學生、行政人員都看得懂的小知識。
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link
+                href="/categories"
+                className="rounded-md bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-zinc-800"
+              >
+                瀏覽問題分類
+              </Link>
+              <Link
+                href="/learn/teacher"
+                className="rounded-md border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+              >
+                我是老師
+              </Link>
+              <Link
+                href="/qr/rm-201"
+                className="rounded-md border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+              >
+                掃 QR 範例
+              </Link>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+      </section>
+
+      {/* Quick role entry */}
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-6">
+          {GRADE_BANDS.map((g) => (
+            <Link
+              key={g.slug}
+              href={`/learn/${g.slug}`}
+              className="rounded-lg border border-zinc-200 bg-white px-3 py-3 text-center text-sm font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50"
+            >
+              <div className="text-[13px]">{g.name}</div>
+              <div className="mt-0.5 text-[11px] text-zinc-500">{g.tagline}</div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Categories */}
+      <section className="mx-auto max-w-6xl px-4 py-6">
+        <div className="mb-5 flex items-end justify-between">
+          <div>
+            <h2 className="text-xl font-semibold tracking-tight">問題分類</h2>
+            <p className="mt-1 text-sm text-zinc-500">先從你看到的症狀開始找。</p>
+          </div>
+          <Link href="/categories" className="text-sm text-zinc-600 hover:text-zinc-900">
+            全部 →
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {CATEGORIES.map((c) => (
+            <CategoryCard
+              key={c.slug}
+              category={c}
+              topicCount={getTopicsByCategory(c.slug).length}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          ))}
         </div>
-      </main>
+      </section>
+
+      {/* Popular */}
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <div className="mb-5">
+          <h2 className="text-xl font-semibold tracking-tight">熱門主題</h2>
+          <p className="mt-1 text-sm text-zinc-500">老師最常遇到的網路問題。</p>
+        </div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {popularTopics.map(
+            (t) => t && <TopicCard key={t.slug} topic={t} showCategory />
+          )}
+        </div>
+      </section>
     </div>
   );
 }
