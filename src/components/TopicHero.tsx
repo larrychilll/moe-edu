@@ -10,6 +10,8 @@ export function TopicHero({ emoji, accent, caption }: Props) {
   const a = accentClasses(accent);
   return (
     <figure
+      role="img"
+      aria-label={`情境插圖：${caption}`}
       className={`relative mt-6 overflow-hidden rounded-2xl border border-zinc-200 ${a.soft}`}
     >
       <div className="relative aspect-[16/9] w-full sm:aspect-[21/9]">
@@ -29,7 +31,7 @@ export function TopicHero({ emoji, accent, caption }: Props) {
         />
         <div className="absolute inset-0 flex flex-col items-start justify-between p-5 sm:p-7">
           <span
-            className={`rounded-md bg-white/85 px-2 py-0.5 text-[0.65rem] font-medium uppercase tracking-wider ring-1 ring-zinc-200 ${a.text}`}
+            className={`rounded-md bg-white/85 px-2 py-0.5 text-xs font-medium uppercase tracking-wider ring-1 ring-zinc-200 ${a.text}`}
           >
             情境插圖
           </span>
@@ -37,7 +39,7 @@ export function TopicHero({ emoji, accent, caption }: Props) {
             <span className="text-5xl drop-shadow-sm sm:text-6xl" aria-hidden>
               {emoji}
             </span>
-            <p className="hidden max-w-md text-xs leading-5 text-zinc-700/80 sm:block">
+            <p className="hidden max-w-md text-sm leading-6 text-zinc-700/85 sm:block">
               {caption}
             </p>
           </div>

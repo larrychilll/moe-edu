@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans_TC } from "next/font/google";
 import Link from "next/link";
+import { MobileNav } from "@/components/MobileNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -48,23 +49,27 @@ function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200/80 bg-white/85 backdrop-blur supports-[backdrop-filter]:bg-white/70">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2.5">
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-zinc-900 text-white text-sm font-semibold">
+        <Link href="/" className="flex items-center gap-2.5" aria-label="校園網路小學堂 首頁">
+          <span
+            aria-hidden
+            className="grid h-8 w-8 place-items-center rounded-md bg-zinc-900 text-white text-sm font-semibold"
+          >
             校
           </span>
           <span className="flex flex-col leading-tight">
             <span className="text-base font-semibold tracking-tight">
               校園網路小學堂
             </span>
-            <span className="hidden sm:block text-[0.7rem] text-zinc-500">
+            <span className="hidden sm:block text-xs text-zinc-500">
               Campus Network Learning Hub
             </span>
           </span>
         </Link>
-        <nav className="flex items-center gap-1 text-sm">
+        <nav className="hidden items-center gap-1 text-base sm:flex" aria-label="主導覽">
           <NavLink href="/categories">問題分類</NavLink>
           <NavLink href="/qr/rm-201">QR 範例</NavLink>
         </nav>
+        <MobileNav />
       </div>
     </header>
   );
@@ -74,7 +79,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="hidden sm:inline-block rounded-md px-3 py-1.5 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
+      className="rounded-md px-3 py-1.5 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
     >
       {children}
     </Link>

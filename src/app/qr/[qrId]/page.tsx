@@ -42,11 +42,14 @@ export default async function QrLandingPage({
     <div className="mx-auto max-w-2xl px-4 py-8 sm:py-10">
       <div className="rounded-xl border border-zinc-200 bg-white p-5">
         <div className="flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-lg bg-gradient-to-br from-sky-100 to-violet-100 text-xl">
+          <span
+            aria-hidden
+            className="grid h-11 w-11 place-items-center rounded-lg bg-gradient-to-br from-sky-100 to-violet-100 text-xl"
+          >
             📍
           </span>
           <div>
-            <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
+            <div className="text-xs font-medium uppercase tracking-wider text-zinc-500">
               {TYPE_LABEL[q.locationType] ?? "現場"} · QR 入口
             </div>
             <h1 className="mt-0.5 text-xl font-semibold tracking-tight">
@@ -69,7 +72,7 @@ export default async function QrLandingPage({
           </ul>
         </div>
 
-        <div className="mt-5 rounded-lg bg-amber-50/80 p-4 text-sm leading-6 text-amber-900 ring-1 ring-amber-200">
+        <div className="mt-5 rounded-lg bg-amber-50/80 p-4 text-base leading-7 text-amber-900 ring-1 ring-amber-200">
           <strong className="font-semibold">如果簡單檢查仍無法解決：</strong>
           <span className="ml-1">{q.reportNote}</span>
         </div>
@@ -86,9 +89,9 @@ export default async function QrLandingPage({
         </div>
       </section>
 
-      <div className="mt-6 text-center text-xs text-zinc-500">
+      <div className="mt-6 text-sm text-zinc-500">
         <Link href="/" className="hover:text-zinc-900">
-          回到首頁 →
+          ← 回到首頁
         </Link>
       </div>
     </div>

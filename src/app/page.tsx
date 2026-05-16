@@ -23,8 +23,8 @@ export default function HomePage() {
         <div className="absolute inset-0 -z-0 bg-[radial-gradient(ellipse_at_top,rgba(125,211,252,0.18),transparent_55%)]" />
         <div className="relative mx-auto max-w-6xl px-4 py-14 sm:py-20">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1 text-[0.7rem] font-medium text-zinc-600">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1 text-xs font-medium text-zinc-600">
+              <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Gentrice 校園網路素養平台
             </div>
             <h1 className="mt-5 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-5xl">
@@ -61,9 +61,9 @@ export default function HomePage() {
         <div className="mb-5 flex items-end justify-between">
           <div>
             <h2 className="text-xl font-semibold tracking-tight">問題分類</h2>
-            <p className="mt-1 text-sm text-zinc-500">先從你看到的症狀開始找。</p>
+            <p className="mt-1 text-base text-zinc-500">先從你看到的症狀開始找。</p>
           </div>
-          <Link href="/categories" className="text-sm text-zinc-600 hover:text-zinc-900">
+          <Link href="/categories" className="text-base text-zinc-600 hover:text-zinc-900">
             全部 →
           </Link>
         </div>
@@ -82,7 +82,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-4 py-6 pb-12">
         <div className="mb-5">
           <h2 className="text-xl font-semibold tracking-tight">熱門主題</h2>
-          <p className="mt-1 text-sm text-zinc-500">校園裡最常遇到的網路狀況。</p>
+          <p className="mt-1 text-base text-zinc-500">校園裡最常遇到的網路狀況。</p>
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {popularTopics.map(

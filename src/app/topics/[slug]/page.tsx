@@ -130,9 +130,9 @@ export default async function TopicPage({
 
       {category && (
         <span
-          className={`mt-4 inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[0.7rem] font-medium ${a.badge}`}
+          className={`mt-4 inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-xs font-medium ${a.badge}`}
         >
-          <span>{category.iconEmoji}</span>
+          <span aria-hidden>{category.iconEmoji}</span>
           {category.name}
         </span>
       )}
@@ -152,7 +152,7 @@ export default async function TopicPage({
 
       {/* Scenario */}
       <section className={`mt-6 rounded-xl border border-zinc-200 ${a.soft} p-5`}>
-        <div className={`flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider ${a.text}`}>
+        <div className={`flex items-center gap-2 text-xs font-semibold uppercase tracking-wider ${a.text}`}>
           <span aria-hidden>🎬</span>
           教室情境
         </div>
@@ -191,7 +191,7 @@ export default async function TopicPage({
       </div>
 
       <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50/70 p-5">
-        <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider text-rose-700">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-rose-700">
           <span aria-hidden>⛔</span>
           請不要這樣做
         </div>
@@ -203,7 +203,7 @@ export default async function TopicPage({
       </div>
 
       <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50/60 p-5">
-        <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider text-amber-800">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-800">
           <span aria-hidden>📣</span>
           什麼時候需要通報？
         </div>
@@ -214,11 +214,11 @@ export default async function TopicPage({
 
       {/* Technical detail */}
       <section className="mt-6 rounded-2xl border border-zinc-300 bg-zinc-900 p-5 text-zinc-100">
-        <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-400">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
           <span aria-hidden>🛠️</span>
           技術細節
         </div>
-        <p className="prose-body mt-2 text-sm leading-7 text-zinc-200">
+        <p className="prose-body mt-2 text-base leading-8 text-zinc-200">
           {topic.technicalNote}
         </p>
       </section>
@@ -228,7 +228,7 @@ export default async function TopicPage({
         {topic.symptomKeywords.map((k) => (
           <span
             key={k}
-            className="rounded-md bg-white px-2 py-1 text-xs text-zinc-600 ring-1 ring-zinc-200"
+            className="rounded-md bg-white px-2 py-1 text-sm text-zinc-600 ring-1 ring-zinc-200"
           >
             #{k}
           </span>
@@ -261,7 +261,7 @@ function SectionBlock({
 }) {
   return (
     <section className="mt-4 rounded-xl border border-zinc-200 bg-white p-5">
-      <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-500">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-500">
         {emoji && <span aria-hidden>{emoji}</span>}
         {title}
       </div>

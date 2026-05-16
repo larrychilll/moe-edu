@@ -38,15 +38,18 @@ export default async function CategoryDetailPage({
       </Link>
       <header className={`mt-4 rounded-xl border border-zinc-200 ${a.soft} p-6`}>
         <div className="flex items-start gap-4">
-          <span className="grid h-12 w-12 place-items-center rounded-lg bg-white text-2xl">
+          <span
+            aria-hidden
+            className="grid h-12 w-12 place-items-center rounded-lg bg-white text-2xl"
+          >
             {category.iconEmoji}
           </span>
           <div>
-            <div className={`text-xs font-medium ${a.text}`}>{category.tagline}</div>
+            <div className={`text-sm font-medium ${a.text}`}>{category.tagline}</div>
             <h1 className="mt-1 text-2xl font-semibold tracking-tight">
               {category.name}
             </h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-600">
+            <p className="mt-2 max-w-2xl text-base leading-7 text-zinc-600">
               {category.description}
             </p>
           </div>
@@ -56,7 +59,7 @@ export default async function CategoryDetailPage({
       <section className="mt-8">
         <div className="mb-4 flex items-end justify-between">
           <h2 className="text-lg font-semibold tracking-tight">本分類主題</h2>
-          <span className="text-xs text-zinc-500">{topics.length} 個主題</span>
+          <span className="text-sm text-zinc-500">{topics.length} 個主題</span>
         </div>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {topics.map((t) => (

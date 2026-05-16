@@ -6,12 +6,16 @@ type Props = {
 
 export function InlineDiagram({ title, caption, nodes }: Props) {
   return (
-    <figure className="mt-6 overflow-hidden rounded-xl border border-zinc-200 bg-white">
+    <figure
+      role="img"
+      aria-label={`${title}：${caption}`}
+      className="mt-6 overflow-hidden rounded-xl border border-zinc-200 bg-white"
+    >
       <div className="border-b border-zinc-100 px-4 py-2">
-        <div className="text-[0.65rem] font-semibold uppercase tracking-wider text-zinc-500">
+        <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
           情境圖解
         </div>
-        <div className="mt-0.5 text-sm font-medium text-zinc-800">{title}</div>
+        <div className="mt-0.5 text-base font-medium text-zinc-800">{title}</div>
       </div>
       <div
         className="relative px-4 py-6"
@@ -31,7 +35,7 @@ export function InlineDiagram({ title, caption, nodes }: Props) {
                 >
                   {n.emoji}
                 </span>
-                <span className="text-center text-[0.7rem] text-zinc-600">
+                <span className="text-center text-sm text-zinc-700">
                   {n.label}
                 </span>
               </span>
@@ -42,7 +46,7 @@ export function InlineDiagram({ title, caption, nodes }: Props) {
           ))}
         </div>
       </div>
-      <figcaption className="border-t border-zinc-100 bg-zinc-50/60 px-4 py-2 text-xs text-zinc-600">
+      <figcaption className="border-t border-zinc-100 bg-zinc-50/60 px-4 py-2 text-sm text-zinc-600">
         {caption}
       </figcaption>
     </figure>
