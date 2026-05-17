@@ -33,15 +33,6 @@ export type Category = {
   accent: string;
 };
 
-export type QrLanding = {
-  id: string;
-  locationName: string;
-  locationType: "classroom" | "office" | "printer" | "wifi" | "admin";
-  commonIssues: string[];
-  topicSlugs: string[];
-  reportNote: string;
-};
-
 export const CATEGORIES: Category[] = [
   {
     slug: "network-unavailable",
@@ -971,70 +962,3 @@ export const TOPICS: Topic[] = [
   },
 ];
 
-export const QR_LANDINGS: QrLanding[] = [
-  {
-    id: "rm-201",
-    locationName: "201 教室",
-    locationType: "classroom",
-    commonIssues: [
-      "整班連不上網或速度突然變慢",
-      "共用印表機顯示離線",
-      "Wi-Fi 訊號弱或時通時斷",
-    ],
-    topicSlugs: ["ip-conflict-printer", "ap-overload", "printer-offline", "wifi-weak-signal"],
-    reportNote:
-      "若簡單檢查仍無法恢復，請通知資訊組老師到場處理。請勿自行更改 IP 設定或拔插機房設備。",
-  },
-  {
-    id: "office-admin",
-    locationName: "行政辦公室",
-    locationType: "admin",
-    commonIssues: [
-      "共享資料夾突然無法開啟",
-      "可疑郵件或釣魚連結",
-      "電腦變慢、異常彈窗",
-    ],
-    topicSlugs: ["shared-folder-fail", "phishing-link", "malware-infection", "vendor-responsibility"],
-    reportNote:
-      "懷疑電腦中毒時請先斷網但不關機，並通報資訊組處理。涉及廠商歸屬問題請走資訊組統一聯絡窗口。",
-  },
-  {
-    id: "printer-2f",
-    locationName: "二樓共用印表機",
-    locationType: "printer",
-    commonIssues: [
-      "印表機顯示離線、無法列印",
-      "印列工作排隊塞住",
-      "共享資料夾連帶無法存取",
-    ],
-    topicSlugs: ["printer-offline", "duplicate-print-job", "ip-conflict-printer", "shared-folder-fail"],
-    reportNote:
-      "若全室同事都無法列印超過十分鐘，請通報資訊組或印表機管理人員，不要自行重置印表機設定。",
-  },
-  {
-    id: "wifi-library",
-    locationName: "圖書館 Wi-Fi 區",
-    locationType: "wifi",
-    commonIssues: [
-      "下課時段 Wi-Fi 突然變慢",
-      "訊號滿格但網速很慢",
-      "登入校內系統失敗",
-    ],
-    topicSlugs: ["ap-overload", "wifi-weak-signal", "wifi-wrong-network", "heavy-traffic-pc"],
-    reportNote:
-      "若特定時段反覆出現大量壅塞，建議資訊組評估增設 AP 或調整網路規劃。",
-  },
-  {
-    id: "it-office",
-    locationName: "資訊組辦公室",
-    locationType: "admin",
-    commonIssues: [
-      "需要追蹤某個 IP 對應的實體設備",
-      "教室線路追蹤與點位整理",
-      "未標示孔位整理",
-    ],
-    topicSlugs: ["find-ip-device", "line-tracing", "unlabeled-network-port", "vendor-responsibility"],
-    reportNote:
-      "資訊組相關設備與資料夾請依現行管理辦法處理；新進同事可由此頁面快速了解日常工作項目。",
-  },
-];

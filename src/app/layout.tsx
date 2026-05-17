@@ -67,7 +67,6 @@ function SiteHeader() {
         </Link>
         <nav className="hidden items-center gap-1 text-base sm:flex" aria-label="主導覽">
           <NavLink href="/categories">問題分類</NavLink>
-          <NavLink href="/qr/rm-201">QR 範例</NavLink>
         </nav>
         <MobileNav />
       </div>

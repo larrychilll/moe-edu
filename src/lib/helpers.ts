@@ -1,5 +1,5 @@
-import { CATEGORIES, TOPICS, QR_LANDINGS } from "./data";
-import type { Category, CategorySlug, Topic, QrLanding } from "./data";
+import { CATEGORIES, TOPICS } from "./data";
+import type { Category, CategorySlug, Topic } from "./data";
 
 export function getCategory(slug: string): Category | undefined {
   return CATEGORIES.find((c) => c.slug === slug);
@@ -19,9 +19,6 @@ export function getRelatedTopics(topic: Topic): Topic[] {
     .filter((t): t is Topic => Boolean(t));
 }
 
-export function getQrLanding(id: string): QrLanding | undefined {
-  return QR_LANDINGS.find((q) => q.id === id);
-}
 
 type AccentClasses = {
   badge: string;

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CATEGORIES, QR_LANDINGS, TOPICS } from "@/lib/data";
+import { CATEGORIES, TOPICS } from "@/lib/data";
 import { getTopicsByCategory } from "@/lib/helpers";
 
 export default function AdminDashboardPage() {
@@ -36,11 +36,10 @@ export default function AdminDashboardPage() {
         </div>
       </header>
 
-      <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <section className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <Stat label="已發佈" value={published} />
         <Stat label="草稿" value={draftMock} />
         <Stat label="待審核" value={pendingReviewMock} />
-        <Stat label="QR 入口" value={QR_LANDINGS.length} />
       </section>
 
       <section className="grid grid-cols-1 gap-5 lg:grid-cols-3">

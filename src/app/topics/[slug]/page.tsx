@@ -9,8 +9,6 @@ import {
   getTopic,
 } from "@/lib/helpers";
 import { TopicCard } from "@/components/TopicCard";
-import { TopicHero } from "@/components/TopicHero";
-import { ImageHero } from "@/components/ImageHero";
 import {
   BeforeAfterPair,
   DecisionTree,
@@ -22,7 +20,6 @@ import {
 } from "@/components/diagrams";
 import {
   TOPIC_DIAGRAMS,
-  TOPIC_HEROES,
   type DiagramConfig,
 } from "@/lib/topic-diagrams";
 
@@ -144,7 +141,6 @@ export default async function TopicPage({
   const related = getRelatedTopics(topic);
   const diagrams =
     TOPIC_DIAGRAMS[topic.slug] ?? [DEFAULT_PATH_BY_CATEGORY[topic.categorySlug]];
-  const hero = TOPIC_HEROES[topic.slug];
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
@@ -176,21 +172,8 @@ export default async function TopicPage({
       </h1>
       <p className="mt-3 text-lg leading-8 text-zinc-700">{topic.summary}</p>
 
-      {/* Hero illustration — AI-generated where available, gradient fallback otherwise */}
-      {hero && category ? (
-        <ImageHero src={hero.src} alt={hero.alt} accent={category.accent} />
-      ) : (
-        category && (
-          <TopicHero
-            emoji={category.iconEmoji}
-            accent={category.accent}
-            caption={topic.scenario}
-          />
-        )
-      )}
-
       {/* Scenario */}
-      <section className={`mt-6 rounded-xl border border-zinc-200 ${a.soft} p-5`}>
+      <section className={`mt-8 rounded-xl border border-zinc-200 ${a.soft} p-5`}>
         <div className={`flex items-center gap-2 text-xs font-semibold uppercase tracking-wider ${a.text}`}>
           <span aria-hidden>🎬</span>
           教室情境

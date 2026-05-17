@@ -321,30 +321,3 @@ export const TOPIC_DIAGRAMS: Record<string, DiagramConfig[]> = {
   ],
 };
 
-export type TopicHero = {
-  src: string;
-  alt: string;
-};
-
-export const TOPIC_HEROES: Record<string, TopicHero> = {
-  "ip-conflict-printer": {
-    src: "/illustrations/ip-conflict-printer.png",
-    alt: "兩張一樣號碼的名牌在空中重疊的編輯式插圖，象徵兩台設備拿到同一個網路位址。",
-  },
-  "heavy-traffic-pc": {
-    src: "/illustrations/heavy-traffic-pc.png",
-    alt: "一個過大的水龍頭灌滿自己的杯子，旁邊四個小水龍頭只滴出幾滴水的編輯式插圖。",
-  },
-  "ap-overload": {
-    src: "/illustrations/ap-overload.png",
-    alt: "一群摺紙裝置圍繞著中間的高天線的編輯式插圖，象徵 Wi-Fi 基地台承受太多裝置。",
-  },
-  "printer-offline": {
-    src: "/illustrations/printer-offline.png",
-    alt: "一張紙懸浮在小印表機上方，中間以一條斷掉的細線相連的編輯式插圖。",
-  },
-  "phishing-link": {
-    src: "/illustrations/phishing-link.png",
-    alt: "一個小釣魚鉤從信封口探出的編輯式插圖，象徵藏在郵件裡的釣魚連結。",
-  },
-};

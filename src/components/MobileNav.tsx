@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 const ITEMS = [
   { href: "/", label: "首頁" },
   { href: "/categories", label: "問題分類" },
-  { href: "/qr/rm-201", label: "QR 範例" },
 ];
 
 export function MobileNav() {

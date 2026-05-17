@@ -1,4 +1,4 @@
-import { CATEGORIES, QR_LANDINGS, TOPICS } from "@/lib/data";
+import { CATEGORIES, TOPICS } from "@/lib/data";
 
 const SEARCH_TERMS = [
   { term: "印表機不能印", count: 142 },
@@ -9,16 +9,16 @@ const SEARCH_TERMS = [
   { term: "印表機離線", count: 64 },
 ];
 
-const QR_SCANS = [
-  { id: "rm-201", scans: 286 },
-  { id: "printer-2f", scans: 211 },
-  { id: "wifi-library", scans: 158 },
-  { id: "it-office", scans: 94 },
-  { id: "office-admin", scans: 72 },
+const TOP_TOPICS = [
+  { slug: "ip-conflict-printer", views: 1820 },
+  { slug: "wifi-weak-signal", views: 1240 },
+  { slug: "ap-overload", views: 1102 },
+  { slug: "printer-offline", views: 904 },
+  { slug: "broadcast-storm", views: 712 },
+  { slug: "phishing-link", views: 503 },
 ];
 
 export default function AnalyticsPage() {
-  const totalScans = QR_SCANS.reduce((s, q) => s + q.scans, 0);
   const totalSearches = SEARCH_TERMS.reduce((s, q) => s + q.count, 0);
 
   return (
@@ -30,10 +30,9 @@ export default function AnalyticsPage() {
         <h1 className="mt-1 text-2xl font-semibold tracking-tight">使用分析</h1>
       </header>
 
-      <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <section className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <Stat label="主題總數" value={TOPICS.length} />
         <Stat label="分類數" value={CATEGORIES.length} />
-        <Stat label="QR 入口" value={QR_LANDINGS.length} />
         <Stat label="月搜尋次數" value={totalSearches} />
       </section>
 
@@ -66,27 +65,25 @@ export default function AnalyticsPage() {
 
         <div className="rounded-xl border border-zinc-200 bg-white p-5">
           <div className="mb-3 flex items-end justify-between">
-            <h2 className="text-sm font-semibold tracking-tight">QR 入口掃描</h2>
-            <span className="text-[0.7rem] tabular-nums text-zinc-500">
-              共 {totalScans} 次
-            </span>
+            <h2 className="text-sm font-semibold tracking-tight">瀏覽量最高主題</h2>
+            <span className="text-[0.7rem] text-zinc-500">過去 30 天</span>
           </div>
           <ul className="space-y-2 text-sm">
-            {QR_SCANS.map((q) => {
-              const landing = QR_LANDINGS.find((l) => l.id === q.id);
-              const max = Math.max(...QR_SCANS.map((x) => x.scans));
+            {TOP_TOPICS.map((t) => {
+              const topic = TOPICS.find((x) => x.slug === t.slug);
+              const max = Math.max(...TOP_TOPICS.map((x) => x.views));
               return (
-                <li key={q.id}>
+                <li key={t.slug}>
                   <div className="mb-1 flex items-center justify-between text-xs">
-                    <span className="text-zinc-700">
-                      {landing?.locationName ?? q.id}
+                    <span className="truncate pr-3 text-zinc-700">
+                      {topic?.title.split(/[:：]/)[0] ?? t.slug}
                     </span>
-                    <span className="tabular-nums text-zinc-500">{q.scans}</span>
+                    <span className="tabular-nums text-zinc-500">{t.views}</span>
                   </div>
                   <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100">
                     <div
                       className="h-full bg-violet-500"
-                      style={{ width: `${(q.scans / max) * 100}%` }}
+                      style={{ width: `${(t.views / max) * 100}%` }}
                     />
                   </div>
                 </li>

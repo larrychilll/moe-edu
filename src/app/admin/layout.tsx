@@ -16,7 +16,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <AdminNav href="/admin" label="儀表板" />
             <AdminNav href="/admin/topics" label="主題列表" />
             <AdminNav href="/admin/topics/new" label="建立新主題" />
-            <AdminNav href="/admin/qr" label="QR 管理" />
             <AdminNav href="/admin/analytics" label="使用分析" />
           </nav>
           <Link
