@@ -10,7 +10,21 @@ import {
 } from "@/lib/helpers";
 import { TopicCard } from "@/components/TopicCard";
 import { TopicHero } from "@/components/TopicHero";
-import { InlineDiagram } from "@/components/InlineDiagram";
+import { ImageHero } from "@/components/ImageHero";
+import {
+  BeforeAfterPair,
+  DecisionTree,
+  DeviceState,
+  NetworkSegment,
+  PathDiagram,
+  ProcessFlow,
+  ScreenshotBlock,
+} from "@/components/diagrams";
+import {
+  TOPIC_DIAGRAMS,
+  TOPIC_HEROES,
+  type DiagramConfig,
+} from "@/lib/topic-diagrams";
 
 export async function generateStaticParams() {
   return TOPICS.map((t) => ({ slug: t.slug }));
@@ -29,14 +43,9 @@ export async function generateMetadata({
   };
 }
 
-type DiagramPreset = {
-  title: string;
-  caption: string;
-  nodes: { emoji: string; label: string }[];
-};
-
-const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
+const DEFAULT_PATH_BY_CATEGORY: Record<CategorySlug, DiagramConfig> = {
   "network-unavailable": {
+    kind: "path",
     title: "問題發生在這一段",
     caption: "從教室到機房之間，任何一個節點出問題，連線就會斷。",
     nodes: [
@@ -47,6 +56,7 @@ const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
     ],
   },
   "network-slow": {
+    kind: "path",
     title: "網路速度是大家共用的",
     caption: "如果有一台設備吃掉大部分網路速度，其他人就會跟著變慢。",
     nodes: [
@@ -57,6 +67,7 @@ const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
     ],
   },
   "wifi-issues": {
+    kind: "path",
     title: "Wi-Fi 訊號需要傳到位",
     caption: "Wi-Fi 基地台容量、距離、干擾，加上選錯網路，都會影響連線品質。",
     nodes: [
@@ -67,6 +78,7 @@ const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
     ],
   },
   "printer-sharing": {
+    kind: "path",
     title: "列印要經過好幾關",
     caption: "電腦把工作送到印表機，途中任何一段有問題都會卡住。",
     nodes: [
@@ -77,6 +89,7 @@ const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
     ],
   },
   "security-traffic": {
+    kind: "path",
     title: "資安事件常從一點開始",
     caption: "一台被感染的電腦會引發整段網路的異常與風險。",
     nodes: [
@@ -87,6 +100,7 @@ const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
     ],
   },
   "device-location": {
+    kind: "path",
     title: "從位址找回實體位置",
     caption: "從網路位址、設備編號、機房線路一層層追蹤，才找得到實際在哪間教室。",
     nodes: [
@@ -97,6 +111,25 @@ const DIAGRAM_BY_CATEGORY: Record<CategorySlug, DiagramPreset> = {
     ],
   },
 };
+
+function renderDiagram(d: DiagramConfig, key: number) {
+  switch (d.kind) {
+    case "path":
+      return <PathDiagram key={key} {...d} />;
+    case "before-after":
+      return <BeforeAfterPair key={key} {...d} />;
+    case "decision":
+      return <DecisionTree key={key} {...d} />;
+    case "network-segment":
+      return <NetworkSegment key={key} {...d} />;
+    case "device-state":
+      return <DeviceState key={key} {...d} />;
+    case "process-flow":
+      return <ProcessFlow key={key} {...d} />;
+    case "screenshot":
+      return <ScreenshotBlock key={key} {...d} />;
+  }
+}
 
 export default async function TopicPage({
   params,
@@ -109,7 +142,9 @@ export default async function TopicPage({
   const category = getCategory(topic.categorySlug);
   const a = accentClasses(category?.accent ?? "slate");
   const related = getRelatedTopics(topic);
-  const diagram = DIAGRAM_BY_CATEGORY[topic.categorySlug];
+  const diagrams =
+    TOPIC_DIAGRAMS[topic.slug] ?? [DEFAULT_PATH_BY_CATEGORY[topic.categorySlug]];
+  const hero = TOPIC_HEROES[topic.slug];
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
@@ -141,13 +176,17 @@ export default async function TopicPage({
       </h1>
       <p className="mt-3 text-lg leading-8 text-zinc-700">{topic.summary}</p>
 
-      {/* Visual break 1: hero illustration */}
-      {category && (
-        <TopicHero
-          emoji={category.iconEmoji}
-          accent={category.accent}
-          caption={topic.scenario}
-        />
+      {/* Hero illustration — AI-generated where available, gradient fallback otherwise */}
+      {hero && category ? (
+        <ImageHero src={hero.src} alt={hero.alt} accent={category.accent} />
+      ) : (
+        category && (
+          <TopicHero
+            emoji={category.iconEmoji}
+            accent={category.accent}
+            caption={topic.scenario}
+          />
+        )
       )}
 
       {/* Scenario */}
@@ -166,12 +205,8 @@ export default async function TopicPage({
         <p>{topic.whyItHappens}</p>
       </SectionBlock>
 
-      {/* Visual break 2: inline diagram */}
-      <InlineDiagram
-        title={diagram.title}
-        caption={diagram.caption}
-        nodes={diagram.nodes}
-      />
+      {/* Topic-specific diagrams */}
+      {diagrams.map((d, i) => renderDiagram(d, i))}
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <SectionBlock title="你可能會看到" emoji="👀">
