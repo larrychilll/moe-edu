@@ -21,7 +21,6 @@ export type Topic = {
   technicalNote: string;
   symptomKeywords: string[];
   relatedSlugs: string[];
-  imagePrompt: string;
 };
 
 export type Category = {
@@ -119,8 +118,6 @@ export const TOPICS: Topic[] = [
       "多半是電信業者的對外線路出狀況。可以從校門邊界路由器的外部連線狀態與光纖訊號燈判斷。如果校內網路彼此還通，問題就確認在對外段，請學校統一向電信業者開單，並記下中斷時間。",
     symptomKeywords: ["全校斷網", "連不到 Google", "對外線路", "WAN", "電信線路"],
     relatedSlugs: ["external-switch-failure", "fiber-abnormal", "vendor-responsibility"],
-    imagePrompt:
-      "Modern friendly vector illustration: a fiber cable from outside the school is broken at the gate, multiple classroom screens show no internet icon, school interior network still glowing. Warm, professional.",
   },
   {
     id: "t-02",
@@ -155,8 +152,6 @@ export const TOPICS: Topic[] = [
       "核心交換器故障時，先檢查電源、風扇、各埠燈號與系統紀錄。若有備援上行線可以切換，能先恢復服務。硬體損壞通常需要送原廠維修，並記下受影響的網段與下游設備。",
     symptomKeywords: ["核心交換器", "多棟樓斷網", "機房異常", "硬體故障"],
     relatedSlugs: ["external-line-down", "fiber-abnormal", "vendor-responsibility"],
-    imagePrompt:
-      "Vector illustration of a server room rack with one core switch showing red warning LEDs, technician calmly inspecting. Clean, professional, school setting.",
   },
   {
     id: "t-03",
@@ -191,8 +186,6 @@ export const TOPICS: Topic[] = [
       "網路迴圈會在交換器上產生大量重複訊息流動的跡象。預防上會在存取交換器啟用 STP（生成樹）防迴圈，並針對對外埠開啟 BPDU 與迴圈保護。找出迴圈後實體拔除問題線，再重新啟用該埠即可恢復。",
     symptomKeywords: ["網路迴圈", "整層樓斷網", "廣播風暴", "亂接線"],
     relatedSlugs: ["broadcast-storm", "rogue-dhcp", "line-tracing"],
-    imagePrompt:
-      "Vector illustration: two network cables forming a loop between two wall ports, packets shown as arrows spinning in circles, friendly school hallway setting.",
   },
   {
     id: "t-04",
@@ -227,8 +220,6 @@ export const TOPICS: Topic[] = [
       "校園裡多出的家用分享器最常造成異常 DHCP。預防方式是在存取交換器啟用 DHCP snooping，只信任學校 DHCP 的上行埠。發現後可由設備編號（MAC）反查到實體埠位，先停用該埠再現場處理。",
     symptomKeywords: ["IP 分享器", "私接設備", "DHCP 異常", "拿到怪 IP"],
     relatedSlugs: ["ip-conflict-printer", "network-loop", "find-ip-device"],
-    imagePrompt:
-      "Vector illustration: a consumer home router placed beside a classroom desk, plugged into a school wall port, students puzzled. Clean modern school setting.",
   },
   {
     id: "t-05",
@@ -263,8 +254,6 @@ export const TOPICS: Topic[] = [
       "可從交換器的光模組（SFP）讀出發送與接收的光功率，跟正常閾值比對。實體上要檢查光纖彎折半徑、接頭髒污或被動物咬傷。較長線段建議用 OTDR 測線儀檢測。",
     symptomKeywords: ["光纖", "時通時斷", "光訊號弱", "光功率"],
     relatedSlugs: ["external-line-down", "cable-old-damaged", "line-tracing"],
-    imagePrompt:
-      "Vector illustration: a delicate orange fiber optic cable bent sharply behind a wall panel, light leaking out, technician with diagnostic tool. Calm school maintenance scene.",
   },
   {
     id: "t-06",
@@ -299,8 +288,6 @@ export const TOPICS: Topic[] = [
       "網路位址重複常見成因是新設備被誤設了固定位址，或校內出現異常 DHCP。可從核心交換器的位址對應表（ARP）找出共用同一位址的兩台設備，再追到實體埠位。同時也要檢查 DHCP 發放範圍與保留設定。",
     symptomKeywords: ["IP 衝突", "印表機離線", "連不上網", "DHCP 異常"],
     relatedSlugs: ["rogue-dhcp", "printer-offline", "find-ip-device"],
-    imagePrompt:
-      "Modern friendly vector illustration of a Taiwanese classroom where two laptops accidentally hold the same network address (duplicated seat-number cards), teacher puzzled while printer shows error icon. Warm palette.",
   },
 
   // ===== network-slow =====
@@ -337,8 +324,6 @@ export const TOPICS: Topic[] = [
       "可從流量紀錄或交換器各埠用量找出耗用最大的設備。常見原因是雲端備份、作業系統更新、點對點傳輸或惡意挖礦程式。若反覆發生，可考慮針對教室網段設流量限速。",
     symptomKeywords: ["網路很慢", "整班卡頓", "流量爆量", "頻寬被吃"],
     relatedSlugs: ["broadcast-storm", "ap-overload", "malware-infection"],
-    imagePrompt:
-      "Vector illustration: one laptop in a classroom row pulling oversized data icons out of a shared pipe, while other students' devices receive only trickles. Friendly diagrammatic style.",
   },
   {
     id: "t-08",
@@ -373,8 +358,6 @@ export const TOPICS: Topic[] = [
       "老舊交換器常因 CPU 滿載、暫存區用盡或散熱不良而反應變慢。可以查設備的 CPU 與記憶體使用率、各埠錯誤計數與機體溫度。若已超過建議使用年限，應規劃汰換。",
     symptomKeywords: ["教室慢", "交換器", "過熱", "L2 反應慢"],
     relatedSlugs: ["broadcast-storm", "cable-old-damaged", "heavy-traffic-pc"],
-    imagePrompt:
-      "Vector illustration: a small wall-mounted network switch in a classroom corner glowing slightly red from heat, while students wait at their slow computers. Warm professional tone.",
   },
   {
     id: "t-09",
@@ -409,8 +392,6 @@ export const TOPICS: Topic[] = [
       "廣播風暴最常由實體迴圈、故障網卡或設定錯誤的設備觸發。預防上會在交換器啟用 STP（生成樹）與廣播流量限制。發生時可從各埠的流量計數爆量找到入侵埠並暫時停用。",
     symptomKeywords: ["廣播風暴", "多教室斷網", "突然超慢", "storm"],
     relatedSlugs: ["network-loop", "abnormal-broadcast", "l2-switch-slow"],
-    imagePrompt:
-      "Vector illustration: a school hallway where megaphone icons fly everywhere, students covering ears, network packets bouncing. Friendly diagrammatic.",
   },
   {
     id: "t-10",
@@ -445,8 +426,6 @@ export const TOPICS: Topic[] = [
       "可從交換器各埠的計數找到一直發出廣播的來源。常見元兇是老舊網卡、故障印表機或被植入 ARP 掃描的惡意程式。確認後先隔離該設備，再決定換零件或更新韌體。",
     symptomKeywords: ["異常廣播", "網路慢", "舊印表機", "ARP 掃描"],
     relatedSlugs: ["broadcast-storm", "malware-infection", "heavy-traffic-pc"],
-    imagePrompt:
-      "Vector illustration: an old printer in a corner emitting small broadcast bubbles continuously into the network, while nearby devices look slightly tired. Diagrammatic, friendly.",
   },
   {
     id: "t-11",
@@ -481,8 +460,6 @@ export const TOPICS: Topic[] = [
       "可先換一條測試線確認是否就是線材問題，再用測線儀檢測串音與回波。牆面端子若鬆動或變色也要更換。確認損壞後盡早換新，避免影響擴大。",
     symptomKeywords: ["線材老化", "網路斷斷續續", "接觸不良", "破皮網路線"],
     relatedSlugs: ["fiber-abnormal", "line-tracing", "find-ip-device"],
-    imagePrompt:
-      "Vector illustration: a damaged ethernet cable with cracked outer jacket near a wall plate, hand swapping in a fresh new cable, calm school office.",
   },
 
   // ===== wifi-issues =====
@@ -519,8 +496,6 @@ export const TOPICS: Topic[] = [
       "可從基地台後台查看連線人數、頻道使用率與重送率判斷是否飽和。改善方式包括引導裝置改連 5GHz、增設基地台、拆分網路名稱（SSID），或限制單機頻寬上限。",
     symptomKeywords: ["Wi-Fi 卡", "AP 過載", "連不上 Wi-Fi", "圖書館慢"],
     relatedSlugs: ["wifi-weak-signal", "wifi-wrong-network", "heavy-traffic-pc"],
-    imagePrompt:
-      "Vector illustration: a school library Wi-Fi AP surrounded by many student devices, a few being pushed back, friendly capacity diagram.",
   },
   {
     id: "t-13",
@@ -555,8 +530,6 @@ export const TOPICS: Topic[] = [
       "訊號強度（RSSI）低於 -75 dBm 通常代表收訊不足。建議重新檢視場勘紀錄、基地台位置與鄰近頻道干擾，必要時調整基地台擺放或增加覆蓋密度。",
     symptomKeywords: ["Wi-Fi 訊號弱", "Wi-Fi 慢", "角落收不到", "RSSI"],
     relatedSlugs: ["ap-overload", "wifi-wrong-network", "cable-old-damaged"],
-    imagePrompt:
-      "Vector illustration: a Wi-Fi access point on the ceiling and a student at the far corner of a classroom showing only one signal bar, walls drawn translucent. Diagrammatic.",
   },
   {
     id: "t-14",
@@ -591,8 +564,6 @@ export const TOPICS: Topic[] = [
       "校園多個 Wi-Fi 名稱（SSID）通常對應不同的網段與權限。確認名稱與網段對應、登入頁面與 RADIUS 認證狀態都正常。並透過告示或教育，引導使用者連到正確的名稱。",
     symptomKeywords: ["接錯 Wi-Fi", "訪客網路", "登入不了", "SSID"],
     relatedSlugs: ["ap-overload", "wifi-weak-signal", "phishing-link"],
-    imagePrompt:
-      "Vector illustration: a phone showing multiple Wi-Fi network names, a student unsure which to choose, classroom poster with correct SSID highlighted.",
   },
 
   // ===== printer-sharing =====
@@ -629,8 +600,6 @@ export const TOPICS: Topic[] = [
       "先確認印表機的網路位址與電腦端設定，並嘗試 ping 通與重啟列印服務（spooler）。常見成因是 DHCP 重新指派造成位址改變、位址衝突，或印表機韌體當機。",
     symptomKeywords: ["印表機離線", "不能列印", "印表機找不到", "spooler"],
     relatedSlugs: ["ip-conflict-printer", "shared-folder-fail", "duplicate-print-job"],
-    imagePrompt:
-      "Vector illustration: a busy office printer with a friendly 'offline' label, a teacher looking at her laptop print queue confused. Calm office tone.",
   },
   {
     id: "t-16",
@@ -665,8 +634,6 @@ export const TOPICS: Topic[] = [
       "先確認檔案伺服器的 SMB 服務狀態、事件紀錄與分享/NTFS 權限。也要檢查伺服器名稱的 DNS 解析。若加入了網域（AD），需檢查網域控制器是否運作正常。",
     symptomKeywords: ["共享資料夾", "檔案伺服器", "權限", "SMB"],
     relatedSlugs: ["printer-offline", "vendor-responsibility", "malware-infection"],
-    imagePrompt:
-      "Vector illustration: a friendly icon of a network folder with a lock icon and several office staff looking at their laptops confused. Calm and clear.",
   },
   {
     id: "t-17",
@@ -701,8 +668,6 @@ export const TOPICS: Topic[] = [
       "清除卡住的列印工作，並重新啟動列印服務（Print Spooler）即可恢復。若反覆發生，需要檢查驅動程式相容性、紙張感應器或更新印表機韌體。",
     symptomKeywords: ["印不出來", "印列佇列卡", "spooler", "紙張卡住"],
     relatedSlugs: ["printer-offline", "ip-conflict-printer", "shared-folder-fail"],
-    imagePrompt:
-      "Vector illustration: a printer with stacked paper waiting icons floating above it, an office worker checking with calm expression.",
   },
 
   // ===== security-traffic =====
@@ -739,8 +704,6 @@ export const TOPICS: Topic[] = [
       "先將電腦從網路隔離（不要關機，以保留鑑識資料），執行掃毒並檢視系統紀錄。若是勒索軟體，切勿付款，並依資安事件處理流程從乾淨備份還原。",
     symptomKeywords: ["惡意程式", "勒索軟體", "電腦中毒", "怪流量"],
     relatedSlugs: ["abnormal-broadcast", "phishing-link", "l3-switch-attack"],
-    imagePrompt:
-      "Vector illustration: a school computer with subtle warning icons in the background and an IT teacher carefully unplugging the network cable. Calm, safety-focused.",
   },
   {
     id: "t-19",
@@ -775,8 +738,6 @@ export const TOPICS: Topic[] = [
       "檢查核心交換器的 CPU 用量、位址對應表（ARP）規模與控制平面負載。若有大量掃描或不正常設備，可啟用控制平面流量限制（CoPP）、廣播風暴防護與動態 ARP 檢查（DAI）。",
     symptomKeywords: ["L3 交換器", "內網慢", "ARP 攻擊", "CPU 高"],
     relatedSlugs: ["broadcast-storm", "abnormal-broadcast", "malware-infection"],
-    imagePrompt:
-      "Vector illustration: a core L3 switch in a server rack with high CPU graph overlay, IT staff observing with calm focus. Professional tone.",
   },
   {
     id: "t-20",
@@ -811,8 +772,6 @@ export const TOPICS: Topic[] = [
       "可將滑鼠停在連結上檢查真正網址，並查看寄件者與郵件驗證紀錄（SPF/DKIM/DMARC）。若已輸入帳密，立即更換密碼並啟用兩步驟驗證，同時檢查信箱規則是否被偷偷設了轉寄。",
     symptomKeywords: ["釣魚連結", "假網站", "假郵件", "社交工程"],
     relatedSlugs: ["malware-infection", "wifi-wrong-network", "vendor-responsibility"],
-    imagePrompt:
-      "Vector illustration: an email envelope with a fake-looking link and a fish hook icon, teacher hovering cursor over the link to inspect. Calm awareness tone.",
   },
 
   // ===== device-location =====
@@ -849,8 +808,6 @@ export const TOPICS: Topic[] = [
       "標準流程：先用位址對應表（ARP）從網路位址查到設備編號（MAC），再到交換器查到實體埠，最後對照線路文件找到教室孔位。完整的設備文件能大幅縮短追蹤時間。",
     symptomKeywords: ["找 IP", "查設備位置", "ARP", "MAC table"],
     relatedSlugs: ["line-tracing", "unlabeled-network-port", "rogue-dhcp"],
-    imagePrompt:
-      "Vector illustration: IT staff with a tablet tracing an IP to a physical wall jack in a classroom, layered diagram from IP to room. Clean diagrammatic.",
   },
   {
     id: "t-22",
@@ -885,8 +842,6 @@ export const TOPICS: Topic[] = [
       "可用測線器（Toner）找線，並在機房面板與牆面端子兩端貼上一致的標籤。建立並維護點位對照表，定期巡查。大型校園可考慮智慧型機房面板輔助管理。",
     symptomKeywords: ["查線困難", "線路追蹤", "點位文件", "牆面孔位"],
     relatedSlugs: ["unlabeled-network-port", "find-ip-device", "vendor-responsibility"],
-    imagePrompt:
-      "Vector illustration: IT staff in a server room using a cable toner to trace a line from patch panel into a classroom wall, labels being added neatly.",
   },
   {
     id: "t-23",
@@ -921,8 +876,6 @@ export const TOPICS: Topic[] = [
       "制定統一的標籤格式（例如：RM-201-J1），並用不同顏色面板區隔不同網段用途。每間教室準備一份簡易說明，並更新給新進老師的入職資料。",
     symptomKeywords: ["孔位沒標", "插錯網路孔", "教室孔位", "VLAN"],
     relatedSlugs: ["line-tracing", "find-ip-device", "wifi-wrong-network"],
-    imagePrompt:
-      "Vector illustration: a classroom wall with four ethernet wall jacks, only one labeled, a teacher choosing carefully. Clear and friendly.",
   },
   {
     id: "t-24",
@@ -957,8 +910,6 @@ export const TOPICS: Topic[] = [
       "建立廠商對照表，列出服務範圍、回應時限（SLA）、聯絡窗口與合約編號。所有故障由資訊組統一回報並紀錄，定期檢視廠商履約狀況。",
     symptomKeywords: ["廠商歸屬", "處理太慢", "合約不清", "SLA"],
     relatedSlugs: ["external-line-down", "external-switch-failure", "fiber-abnormal"],
-    imagePrompt:
-      "Vector illustration: a school administrator at a desk with a folder labeled 'Vendor Contacts', several company logos as cards, calm coordination tone.",
   },
 ];
 

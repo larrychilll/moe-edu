@@ -5,7 +5,6 @@ import { getTopicsByCategory } from "@/lib/helpers";
 export default function AdminDashboardPage() {
   const published = TOPICS.length;
   const draftMock = 4;
-  const pendingReviewMock = 2;
   const mostViewed = [
     { slug: "ip-conflict-printer", views: 1820 },
     { slug: "wifi-weak-signal", views: 1240 },
@@ -23,10 +22,10 @@ export default function AdminDashboardPage() {
     <div className="space-y-8">
       <header>
         <div className="text-[0.7rem] font-medium uppercase tracking-wider text-zinc-500">
-          Dashboard
+          Overview
         </div>
         <div className="mt-1 flex flex-wrap items-end justify-between gap-3">
-          <h1 className="text-2xl font-semibold tracking-tight">儀表板</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">主題總覽</h1>
           <Link
             href="/admin/topics/new"
             className="rounded-md bg-zinc-900 px-3.5 py-2 text-sm font-medium text-white hover:bg-zinc-800"
@@ -39,7 +38,7 @@ export default function AdminDashboardPage() {
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <Stat label="已發佈" value={published} />
         <Stat label="草稿" value={draftMock} />
-        <Stat label="待審核" value={pendingReviewMock} />
+        <Stat label="分類數" value={CATEGORIES.length} />
       </section>
 
       <section className="grid grid-cols-1 gap-5 lg:grid-cols-3">

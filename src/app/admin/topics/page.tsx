@@ -35,10 +35,10 @@ export default function AdminTopicsPage() {
           <thead className="bg-zinc-50 text-left text-[0.7rem] uppercase tracking-wider text-zinc-500">
             <tr>
               <th className="px-4 py-2.5 font-medium">標題</th>
-              <th className="hidden px-4 py-2.5 font-medium sm:table-cell">分類</th>
+              <th className="hidden whitespace-nowrap px-4 py-2.5 font-medium sm:table-cell">分類</th>
               <th className="hidden px-4 py-2.5 font-medium md:table-cell">關鍵字</th>
-              <th className="px-4 py-2.5 font-medium">狀態</th>
-              <th className="px-4 py-2.5"></th>
+              <th className="w-[5.5rem] whitespace-nowrap px-4 py-2.5 font-medium">狀態</th>
+              <th className="w-16 px-4 py-2.5"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-100">
@@ -58,38 +58,38 @@ export default function AdminTopicsPage() {
                       {t.summary}
                     </div>
                   </td>
-                  <td className="hidden px-4 py-3 sm:table-cell">
+                  <td className="hidden whitespace-nowrap px-4 py-3 align-top sm:table-cell">
                     {c && (
                       <span
-                        className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[0.7rem] ${a.badge}`}
+                        className={`inline-flex items-center gap-1 whitespace-nowrap rounded-md border px-2 py-0.5 text-[0.7rem] ${a.badge}`}
                       >
-                        <span>{c.iconEmoji}</span>
+                        <span aria-hidden>{c.iconEmoji}</span>
                         {c.name}
                       </span>
                     )}
                   </td>
-                  <td className="hidden px-4 py-3 md:table-cell">
+                  <td className="hidden px-4 py-3 align-top md:table-cell">
                     <div className="flex flex-wrap gap-1">
                       {t.symptomKeywords.slice(0, 2).map((k) => (
                         <span
                           key={k}
-                          className="rounded bg-zinc-100 px-1.5 py-0.5 text-[0.65rem] text-zinc-600"
+                          className="whitespace-nowrap rounded bg-zinc-100 px-1.5 py-0.5 text-[0.65rem] text-zinc-600"
                         >
                           {k}
                         </span>
                       ))}
                     </div>
                   </td>
-                  <td className="px-4 py-3">
-                    <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-2 py-0.5 text-[0.7rem] font-medium text-emerald-700 ring-1 ring-emerald-200">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  <td className="whitespace-nowrap px-4 py-3 align-top">
+                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-emerald-50 px-2 py-0.5 text-[0.7rem] font-medium text-emerald-700 ring-1 ring-emerald-200">
+                      <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       已發佈
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="whitespace-nowrap px-4 py-3 text-right align-top">
                     <Link
                       href={`/topics/${t.slug}`}
-                      className="text-xs text-zinc-600 hover:text-zinc-900"
+                      className="whitespace-nowrap text-xs text-zinc-600 hover:text-zinc-900"
                     >
                       預覽 →
                     </Link>
@@ -107,7 +107,7 @@ export default function AdminTopicsPage() {
 function FilterChip({ children, active }: { children: React.ReactNode; active?: boolean }) {
   return (
     <span
-      className={`rounded-full border px-3 py-1 text-xs ${
+      className={`whitespace-nowrap rounded-full border px-3 py-1 text-xs ${
         active
           ? "border-zinc-900 bg-zinc-900 text-white"
           : "border-zinc-200 bg-white text-zinc-600"

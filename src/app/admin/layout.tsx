@@ -13,7 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             管理後台
           </div>
           <nav className="mt-2 flex flex-col gap-0.5 text-sm">
-            <AdminNav href="/admin" label="儀表板" />
+            <AdminNav href="/admin" label="主題總覽" />
             <AdminNav href="/admin/topics" label="主題列表" />
             <AdminNav href="/admin/topics/new" label="建立新主題" />
             <AdminNav href="/admin/analytics" label="使用分析" />

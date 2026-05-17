@@ -15,14 +15,13 @@ type Draft = {
   escalate: string;
   technicalNote: string;
   keywords: string[];
-  imagePrompt: string;
 };
 
 const STAGES = [
   "讀取技術說明",
   "歸納症狀與情境",
   "撰寫白話說明",
-  "產生圖片提示與關鍵字",
+  "整理關鍵字",
 ];
 
 export function GenerateDraftForm() {
@@ -33,9 +32,11 @@ export function GenerateDraftForm() {
   const [stage, setStage] = useState<number>(-1);
   const [draft, setDraft] = useState<Draft | null>(null);
   const [generating, setGenerating] = useState(false);
+  const [savedAs, setSavedAs] = useState<"draft" | "published" | null>(null);
 
   async function handleGenerate() {
     setDraft(null);
+    setSavedAs(null);
     setGenerating(true);
     for (let i = 0; i < STAGES.length; i++) {
       setStage(i);
@@ -46,12 +47,17 @@ export function GenerateDraftForm() {
     setStage(-1);
   }
 
+  function patch<K extends keyof Draft>(key: K, value: Draft[K]) {
+    setDraft((d) => (d ? { ...d, [key]: value } : d));
+    setSavedAs(null);
+  }
+
   return (
     <div className="space-y-6">
       <section className="rounded-xl border border-zinc-200 bg-white p-5">
         <h2 className="text-sm font-semibold tracking-tight">技術來源說明</h2>
         <p className="mt-1 text-xs text-zinc-500">
-          貼上資訊組備忘、廠商回報或現場觀察。AI 會以此產生草稿，仍需人工審核後才能發佈。
+          貼上資訊組備忘、廠商回報或現場觀察。AI 會產生初版草稿，發佈前可逐段編輯。
         </p>
         <textarea
           value={source}
@@ -82,100 +88,138 @@ export function GenerateDraftForm() {
             type="button"
             onClick={handleGenerate}
             disabled={generating}
-            className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60"
+            className="inline-flex items-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60"
           >
             <span aria-hidden>✨</span>
             {generating ? "生成中…" : "一鍵產生草稿"}
           </button>
           {stage >= 0 && (
-            <span className="text-xs text-zinc-500">
-              {STAGES[stage]}…
-            </span>
+            <span className="text-xs text-zinc-500">{STAGES[stage]}…</span>
           )}
-          {draft && !generating && (
-            <span className="text-xs text-emerald-700">草稿已產生 · 請審核後送出。</span>
+          {draft && !generating && savedAs === null && (
+            <span className="text-xs text-zinc-500">草稿已產生 · 可逐段編輯後發佈。</span>
           )}
         </div>
       </section>
 
       {draft && (
         <section className="rounded-xl border border-zinc-200 bg-white p-5">
-          <div className="mb-1 flex items-center justify-between">
-            <div>
+          <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0 flex-1">
               <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-500">
-                AI 草稿 · 待審核
+                草稿
               </div>
-              <h2 className="mt-1 text-lg font-semibold tracking-tight">
-                {draft.title}
-              </h2>
+              <input
+                type="text"
+                value={draft.title}
+                onChange={(e) => patch("title", e.target.value)}
+                className="mt-1 w-full rounded-md border border-transparent bg-transparent text-lg font-semibold tracking-tight text-zinc-900 hover:border-zinc-200 hover:bg-zinc-50 focus:border-zinc-300 focus:bg-white focus:outline-none"
+              />
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button
                 type="button"
-                className="rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50"
+                onClick={handleGenerate}
+                disabled={generating}
+                className="whitespace-nowrap rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-60"
               >
                 重新生成
               </button>
               <button
                 type="button"
-                className="rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700"
+                onClick={() => setSavedAs("draft")}
+                className="whitespace-nowrap rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50"
               >
-                送出審核
+                儲存為草稿
+              </button>
+              <button
+                type="button"
+                onClick={() => setSavedAs("published")}
+                className="whitespace-nowrap rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700"
+              >
+                發佈上線
               </button>
             </div>
           </div>
-          <p className="mt-1 text-sm leading-6 text-zinc-600">{draft.summary}</p>
+          {savedAs && (
+            <div
+              className={`mb-3 rounded-md px-3 py-2 text-xs ${
+                savedAs === "published"
+                  ? "bg-emerald-50 text-emerald-800 ring-1 ring-emerald-200"
+                  : "bg-zinc-50 text-zinc-700 ring-1 ring-zinc-200"
+              }`}
+            >
+              {savedAs === "published"
+                ? "已發佈 — 本主題已公開上線。日後可在主題列表中重新開啟編輯。"
+                : "已儲存為草稿 — 之後可繼續編輯，準備好再發佈。"}
+            </div>
+          )}
 
-          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Block title="教室情境">{draft.scenario}</Block>
-            <Block title="為什麼會這樣">{draft.why}</Block>
-            <Block title="可能觀察到">
-              <ul className="list-disc pl-5">
-                {draft.symptoms.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            </Block>
-            <Block title="安全先檢查">
-              <ul className="list-disc pl-5">
-                {draft.safeChecks.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            </Block>
-            <Block title="請不要做">
-              <ul className="list-disc pl-5">
-                {draft.doNotDo.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            </Block>
-            <Block title="何時通報">{draft.escalate}</Block>
+          <EditableBlock
+            title="摘要"
+            value={draft.summary}
+            onChange={(v) => patch("summary", v)}
+            rows={2}
+          />
+
+          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <EditableBlock
+              title="教室情境"
+              value={draft.scenario}
+              onChange={(v) => patch("scenario", v)}
+              rows={3}
+            />
+            <EditableBlock
+              title="為什麼會這樣"
+              value={draft.why}
+              onChange={(v) => patch("why", v)}
+              rows={3}
+            />
+            <EditableListBlock
+              title="可能觀察到"
+              items={draft.symptoms}
+              onChange={(items) => patch("symptoms", items)}
+            />
+            <EditableListBlock
+              title="安全先檢查"
+              items={draft.safeChecks}
+              onChange={(items) => patch("safeChecks", items)}
+            />
+            <EditableListBlock
+              title="請不要做"
+              items={draft.doNotDo}
+              onChange={(items) => patch("doNotDo", items)}
+            />
+            <EditableBlock
+              title="何時通報"
+              value={draft.escalate}
+              onChange={(v) => patch("escalate", v)}
+              rows={3}
+            />
           </div>
 
-          <div className="mt-4 rounded-lg border border-zinc-300 bg-zinc-900 p-4 text-zinc-100">
+          <div className="mt-3 rounded-lg border border-zinc-300 bg-zinc-900 p-4 text-zinc-100">
             <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-400">
               技術細節
             </div>
-            <p className="mt-1 text-[0.825rem] leading-6">{draft.technicalNote}</p>
+            <textarea
+              value={draft.technicalNote}
+              onChange={(e) => patch("technicalNote", e.target.value)}
+              rows={3}
+              className="mt-1 w-full rounded-md border border-zinc-700 bg-zinc-900 p-2 text-[0.825rem] leading-6 text-zinc-100 focus:border-zinc-500 focus:outline-none"
+            />
+            <p className="mt-1 text-[0.7rem] text-zinc-500">
+              AI 產出的英文/技術摘要僅供資訊組參考，發佈時會以中文呈現。
+            </p>
           </div>
 
-          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Block title="關鍵字">
-              <div className="flex flex-wrap gap-1.5">
-                {draft.keywords.map((k) => (
-                  <span
-                    key={k}
-                    className="rounded-md bg-zinc-100 px-2 py-0.5 text-[0.7rem] text-zinc-700"
-                  >
-                    {k}
-                  </span>
-                ))}
-              </div>
-            </Block>
-            <Block title="圖片提示（GPT-Image-2）">
-              <code className="text-xs text-zinc-600">{draft.imagePrompt}</code>
-            </Block>
+          <div className="mt-3">
+            <EditableListBlock
+              title="關鍵字"
+              items={draft.keywords}
+              onChange={(items) => patch("keywords", items)}
+              inline
+            />
           </div>
         </section>
       )}
@@ -194,13 +238,77 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-function Block({ title, children }: { title: string; children: React.ReactNode }) {
+function EditableBlock({
+  title,
+  value,
+  onChange,
+  rows = 3,
+}: {
+  title: string;
+  value: string;
+  onChange: (v: string) => void;
+  rows?: number;
+}) {
   return (
     <div className="rounded-lg border border-zinc-100 bg-zinc-50/60 p-3">
       <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-500">
         {title}
       </div>
-      <div className="mt-1 text-sm leading-7 text-zinc-700">{children}</div>
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        rows={rows}
+        className="mt-1 w-full resize-y rounded-md border border-transparent bg-transparent p-1 text-sm leading-7 text-zinc-800 hover:border-zinc-200 hover:bg-white focus:border-zinc-300 focus:bg-white focus:outline-none"
+      />
+    </div>
+  );
+}
+
+function EditableListBlock({
+  title,
+  items,
+  onChange,
+  inline = false,
+}: {
+  title: string;
+  items: string[];
+  onChange: (items: string[]) => void;
+  inline?: boolean;
+}) {
+  const text = items.join("\n");
+  const rows = Math.max(3, items.length);
+  return (
+    <div className="rounded-lg border border-zinc-100 bg-zinc-50/60 p-3">
+      <div className="text-[0.7rem] font-semibold uppercase tracking-wider text-zinc-500">
+        {title}
+        <span className="ml-1 font-normal normal-case tracking-normal text-zinc-400">
+          (一行一個項目)
+        </span>
+      </div>
+      <textarea
+        value={text}
+        onChange={(e) => {
+          const next = e.target.value
+            .split("\n")
+            .map((s) => s.trim())
+            .filter((s) => s.length > 0);
+          onChange(next);
+        }}
+        rows={inline ? 2 : rows}
+        className="mt-1 w-full resize-y rounded-md border border-transparent bg-transparent p-1 text-sm leading-7 text-zinc-800 hover:border-zinc-200 hover:bg-white focus:border-zinc-300 focus:bg-white focus:outline-none"
+      />
+      {inline && items.length > 0 && (
+        <div className="mt-1.5 flex flex-wrap gap-1.5">
+          {items.map((k) => (
+            <span
+              key={k}
+              className="whitespace-nowrap rounded-md bg-zinc-100 px-2 py-0.5 text-[0.7rem] text-zinc-700"
+            >
+              {k}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -235,7 +343,5 @@ function buildDraft(_source: string): Draft {
     technicalNote:
       "Possible causes: duplicate static IP, rogue DHCP server (常為私接 IP 分享器), incorrect subnet, legacy device. Check ARP table on the L3 switch and trace MAC to switch port. Verify DHCP scope and look for unauthorized DHCP servers via dhcpdump.",
     keywords: ["IP 衝突", "印表機離線", "連不上網", "DHCP", "私接分享器"],
-    imagePrompt:
-      "Friendly modern vector illustration of a Taiwanese classroom where two laptops accidentally hold the same network address (shown as duplicated seat-number cards), a teacher looks puzzled while a printer shows an error icon. Clean, school-safe, warm palette.",
   };
 }
